@@ -53,6 +53,10 @@
       source = ./kitty;
       recursive = true;
     };
+    ".config/nvim" = {
+      source = ./nvim;
+      recursive = true;
+    };
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
@@ -82,7 +86,7 @@
   #  /etc/profiles/per-user/karimi/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "vim";
+    EDITOR = "nvim";
     NIXOS_OZONE_WL = "1";
   };
   wayland = {
