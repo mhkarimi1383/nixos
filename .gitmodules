@@ -7,3 +7,6 @@
 [submodule "nvim"]
 	path = nvim
 	url = git@github.com:mhkarimi1383/nvim
+[submodule "waybar"]
+	path = waybar
+	url = git@github.com:mhkarimi1383/waybar

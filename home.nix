@@ -23,7 +23,8 @@
     neovim
     tmux
     inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
-
+    gcc
+    waybar
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -55,6 +56,10 @@
     };
     ".config/nvim" = {
       source = ./nvim;
+      recursive = true;
+    };
+    ".config/waybar" = {
+      source = ./waybar;
       recursive = true;
     };
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
