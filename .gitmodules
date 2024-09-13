@@ -1,3 +1,6 @@
 [submodule "hypr"]
 	path = hypr
 	url = git@github.com:mhkarimi1383/hypr.git
+[submodule "kitty"]
+	path = kitty
+	url = git@github.com:mhkarimi1383/kitty.git
