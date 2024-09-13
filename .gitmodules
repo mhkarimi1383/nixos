@@ -10,3 +10,6 @@
 [submodule "waybar"]
 	path = waybar
 	url = git@github.com:mhkarimi1383/waybar
+[submodule "fuzzel"]
+	path = fuzzel
+	url = git@github.com:mhkarimi1383/fuzzel
