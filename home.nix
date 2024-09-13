@@ -39,6 +39,17 @@
     jq
     kubecolor
     vazir-fonts
+    lsd
+    btop
+    bat
+    dogdns
+    prettyping
+    viddy
+    nerdfetch
+    krew
+    delve
+    gopls
+
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -56,11 +67,80 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
+  programs = {
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+      options = [
+        "--cmd cd"
+      ];
+    };
+    zsh = {
+      enable = true;
+      enableCompletion = true;
+      autosuggestion.enable = false;
+      syntaxHighlighting.enable = true;
+      autocd = true;
 
+      initExtraFirst = ''
+      ln -s "$HOME/.local/share/zsh/custom/themes/typewritten/typewritten.zsh-theme" "$ZSH_CUSTOM/themes/typewritten.zsh-theme"
+      ln -s "$HOME/.local/share/zsh/custom/themes/typewritten/async.zsh" "$ZSH_CUSTOM/themes/async"
+      display_kube_context() {
+        tw_kube_context="\u2388 | $(kubectl config view --minify --output json | jq -r '(."contexts"[0]."context"."user" + "@" + ."contexts"[0]."context"."cluster" + ":" + ."contexts"[0]."context"."namespace")' 2> /dev/null)"
+        if [[ $tw_kube_context != "" ]]; then
+          echo -n "($tw_kube_context)"
+        fi
+      }
+      '';
+      shellAliases = {
+        ll = "ls -l";
+        update = "sudo nixos-rebuild switch --flake /etc/nixos?submodules=1#default";
+        make = "make -j$(nproc)";
+        ninja = "ninja -j$(nproc)";
+        c = "clear";
+        n = "ninja";
+        dir = "ls";
+        ls = "lsd -h --group-dirs first";
+        tree = "lsd --tree";
+        top = "btop";
+        htop = "btop";
+        bat = "bat --theme='Catppuccin Mocha'";
+        "-g -- --help" = "--help 2>&1 | bat --plain --language=help";
+        cat = "bat --pager=never";
+        less = "bat";
+        oldless = "bat --plain";
+        oldcat = "bat --plain --pager=never";
+        dig = "dog";
+        ping = "prettyping";
+        kubectl = "kubecolor";
+        k = "kubectl";
+        watch = "viddy";
+        tarnow = "tar -acf ";
+        wget = "wget -c ";
+        untar = "tar -zxvf ";
+      };
+      sessionVariables = {
+        MANPAGER = "sh -c 'col -bx | bat -l man'";
+        TYPEWRITTEN_SYMBOL = "λ ";
+        TYPEWRITTEN_PROMPT_LAYOUT = "half_pure";
+        TYPEWRITTEN_RELATIVE_PATH = "home";
+        TYPEWRITTEN_LEFT_PROMPT_PREFIX_FUNCTION = "display_kube_context";
+      };
+      oh-my-zsh = {
+        enable = true;
+        plugins = [ "git" "extract" "zsh-syntax-highlighting" "zsh-autosuggestions" "zsh-history-substring-search" "timer" ];
+        theme = "typewritten";
+      };
+      history = {
+        size = 10000;
+        path = "${config.xdg.dataHome}/zsh/history";
+      };
+    };
+  };
   fonts = {
     fontconfig = {
       defaultFonts = {
-        serif = [  "Vazirmatn" ];
+        serif = [ "Vazirmatn" ];
         sansSerif = [ "Vazirmatn" ];
         monospace = [ "ComicShannsMono Nerd Font Mono" ];
       };
@@ -88,6 +168,10 @@
     };
     ".config/fuzzel" = {
       source = ./fuzzel;
+      recursive = true;
+    };
+    ".local/share/zsh/custom/themes/typewritten" = {
+      source = ./typewritten;
       recursive = true;
     };
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
