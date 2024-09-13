@@ -99,7 +99,11 @@
   };
   services = {
     hyprpaper = {
-      enable = false;
+      enable = true;
+      settings = {
+preload = "~/.config/hypr/assets/dark-cat-rosewater.png";
+wallpaper = ",~/.config/hypr/assets/dark-cat-rosewater.png";
+};
     };
     hypridle = {
       enable = true;
