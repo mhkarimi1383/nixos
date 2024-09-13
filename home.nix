@@ -98,12 +98,12 @@
     };
   };
   services = {
-    # hyprpaper = {
-    #   enable = true;
-    # };
-    # hypridle = {
-    #   enable = true;
-    # };
+    hyprpaper = {
+      enable = true;
+    };
+    hypridle = {
+      enable = true;
+    };
   }; 
   programs = {
     hyprlock = {
