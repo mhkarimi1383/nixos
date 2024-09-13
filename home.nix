@@ -25,6 +25,14 @@
     inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
     gcc
     waybar
+    brightnessctl
+    playerctl
+    networkmanagerapplet
+    hyprpaper
+    hypridle
+    fuzzel
+    dunst
+    nerdfonts
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
