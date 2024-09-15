@@ -323,7 +323,7 @@ listener = [
       userName = "Muhammed Hussein Karimi";
       userEmail = "info@karimi.dev";
       extraConfig = {
-        safe.directory = "/etc/nixos";
+        safe.directory = "/etc/*";
         color = {
           ui = "auto";
         };
