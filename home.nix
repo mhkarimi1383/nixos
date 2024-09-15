@@ -15,6 +15,10 @@
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
 
+  home.sessionPath = [
+    "/home/karimi/.krew/bin"
+  ];
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
@@ -49,23 +53,31 @@
     krew
     delve
     gopls
-
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
-
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
+    pyright
+    fzf
+    ansible
+    ansible-lint
+    go
+    materialgram
+    p7zip
+    clipse
+    ripgrep
+    gnumake
+    golines
+    gotools
+    reftools
+    golangci-lint
+    govulncheck
+    mockgen
+    impl
+    ginkgo
+    gofumpt
+    gomodifytags
+    iferr
+    luajit
+    tree-sitter
+    nodejs_22
+    wl-clipboard
   ];
   programs = {
     zoxide = {
@@ -75,26 +87,38 @@
         "--cmd cd"
       ];
     };
+    pyenv = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    rbenv = {
+      enable = true;
+      enableZshIntegration = true;
+    };
     zsh = {
       enable = true;
       enableCompletion = true;
-      autosuggestion.enable = false;
+      autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
       autocd = true;
 
       initExtraFirst = ''
-      ln -s "$HOME/.local/share/zsh/custom/themes/typewritten/typewritten.zsh-theme" "$ZSH_CUSTOM/themes/typewritten.zsh-theme"
-      ln -s "$HOME/.local/share/zsh/custom/themes/typewritten/async.zsh" "$ZSH_CUSTOM/themes/async"
+      source "$HOME/.local/share/zsh/custom/themes/typewritten/typewritten.zsh-theme"
       display_kube_context() {
         tw_kube_context="\u2388 | $(kubectl config view --minify --output json | jq -r '(."contexts"[0]."context"."user" + "@" + ."contexts"[0]."context"."cluster" + ":" + ."contexts"[0]."context"."namespace")' 2> /dev/null)"
         if [[ $tw_kube_context != "" ]]; then
           echo -n "($tw_kube_context)"
         fi
       }
+      autoload -U compinit && compinit
+      '';
+      initExtra = ''
+      source <(kubectl completion zsh)
+      compdef k='kubectl'
       '';
       shellAliases = {
         ll = "ls -l";
-        update = "sudo nixos-rebuild switch --flake /etc/nixos?submodules=1#default";
+        update = "sudo nixos-rebuild switch --flake '/etc/nixos?submodules=1#default'";
         make = "make -j$(nproc)";
         ninja = "ninja -j$(nproc)";
         c = "clear";
@@ -118,27 +142,38 @@
         tarnow = "tar -acf ";
         wget = "wget -c ";
         untar = "tar -zxvf ";
+        vim = "nvim";
+        vi = "nvim";
+        tb = "nc termbin.com 9999";
+        ssh = "kitten ssh";
+        icat = "kitten icat";
+        diff = "kitten diff";
       };
       sessionVariables = {
         MANPAGER = "sh -c 'col -bx | bat -l man'";
+        EDITOR = "nvim";
         TYPEWRITTEN_SYMBOL = "λ ";
         TYPEWRITTEN_PROMPT_LAYOUT = "half_pure";
         TYPEWRITTEN_RELATIVE_PATH = "home";
         TYPEWRITTEN_LEFT_PROMPT_PREFIX_FUNCTION = "display_kube_context";
+        HISTCONTROL = "ignoreboth";
       };
       oh-my-zsh = {
         enable = true;
-        plugins = [ "git" "extract" "zsh-syntax-highlighting" "zsh-autosuggestions" "zsh-history-substring-search" "timer" ];
-        theme = "typewritten";
+        plugins = [ "git" "extract" "timer" "fzf" ];
       };
       history = {
         size = 10000;
         path = "${config.xdg.dataHome}/zsh/history";
+        ignorePatterns = [
+          "&:[bf]g:c:clear:history:exit:q:pwd:* --help"
+        ];
       };
     };
   };
   fonts = {
     fontconfig = {
+      enable = true;
       defaultFonts = {
         serif = [ "Vazirmatn" ];
         sansSerif = [ "Vazirmatn" ];
@@ -168,6 +203,18 @@
     };
     ".config/fuzzel" = {
       source = ./fuzzel;
+      recursive = true;
+    };
+    ".config/dunst" = {
+      source = ./dunst;
+      recursive = true;
+    };
+    ".config/lsd" = {
+      source = ./lsd;
+      recursive = true;
+    };
+    ".config/bat" = {
+      source = ./bat;
       recursive = true;
     };
     ".local/share/zsh/custom/themes/typewritten" = {
@@ -266,7 +313,7 @@ listener = [
 }];
 };
     };
-  }; 
+  };
   programs = {
     hyprlock = {
       enable = true;
@@ -277,6 +324,51 @@ listener = [
       userEmail = "info@karimi.dev";
       extraConfig = {
         safe.directory = "/etc/nixos";
+        color = {
+          ui = "auto";
+        };
+        color.branch = {
+          current = "cyan bold reverse";
+          local = "white";
+          plain = "";
+          remote = "cyan";
+        };
+        color.diff = {
+          commit = "";
+          func = "cyan";
+          plain = "";
+          whitespace = "magenta reverse";
+          meta = "white";
+          frag = "cyan bold reverse";
+          old = "red";
+          new = "green";
+        };
+        color.grep = {
+          context = "";
+          filename = "";
+          function = "";
+          linenumber = "white";
+          match = "";
+          selected = "";
+          separator = "";
+        };
+        color.interactive = {
+          error = "";
+          header = "";
+          help = "";
+          prompt = "";
+        };
+        color.status = {
+          added = "green";
+          changed = "yellow";
+          header = "";
+          localBranch = "";
+          nobranch = "";
+          remoteBranch = "cyan bold";
+          unmerged = "magenta bold reverse";
+          untracked = "red";
+          updated = "green bold";
+        };
       };
     };
     kitty = {
@@ -286,14 +378,4 @@ listener = [
      enable = true;
     };
   };
-#   hardware = {
-#     opengl = {
-#       enable = true;
-#     };
-#     nvidia = {
-#       modesetting = {
-#         enable = true;
-#       };
-#     };
-#   };
 }

@@ -16,3 +16,12 @@
 [submodule "typewritten"]
 	path = typewritten
 	url = https://github.com/reobin/typewritten.git
+[submodule "dunst"]
+	path = dunst
+	url = git@github.com:mhkarimi1383/dunst.git
+[submodule "lsd"]
+	path = lsd
+	url = git@github.com:mhkarimi1383/lsd
+[submodule "bat"]
+	path = bat
+	url = git@github.com:mhkarimi1383/bat.git
