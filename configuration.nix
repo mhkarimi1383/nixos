@@ -8,7 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default  
+      inputs.home-manager.nixosModules.default
     ];
 
   virtualisation.containers.enable = true;
@@ -54,6 +54,7 @@
     packages = with pkgs; [];
   };
   programs.zsh.enable = true;
+  programs.nix-ld.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
   home-manager = {

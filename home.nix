@@ -78,6 +78,13 @@
     tree-sitter
     nodejs_22
     wl-clipboard
+    lua-language-server
+    nginx-language-server
+    python312Packages.python-lsp-server
+    nil
+    cargo
+    rustc
+    openssl
   ];
   programs = {
     zoxide = {
@@ -146,6 +153,7 @@
         vi = "nvim";
         tb = "nc termbin.com 9999";
         ssh = "kitten ssh";
+        oldssh = "/run/current-system/sw/bin/ssh";
         icat = "kitten icat";
         diff = "kitten diff";
       };
