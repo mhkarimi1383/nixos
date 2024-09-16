@@ -85,6 +85,7 @@
     cargo
     rustc
     openssl
+    curlie
   ];
   programs = {
     zoxide = {
@@ -156,6 +157,7 @@
         oldssh = "/run/current-system/sw/bin/ssh";
         icat = "kitten icat";
         diff = "kitten diff";
+        curl = "curlie";
       };
       sessionVariables = {
         MANPAGER = "sh -c 'col -bx | bat -l man'";

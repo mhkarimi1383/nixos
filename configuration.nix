@@ -55,6 +55,10 @@
     };
   };
 
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+  };
   networking.hostName = "Karimihub"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -83,7 +87,7 @@
     description = "Muhammed Hussein Karimi";
     extraGroups = [ "networkmanager" "wheel" ];
     useDefaultShell = true;
-    packages = with pkgs; [];
+    # packages = with pkgs; [];
   };
   programs.zsh.enable = true;
   programs.nix-ld.enable = true;
@@ -103,10 +107,10 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
+  # environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
-  ];
+  # ];
   environment.pathsToLink = [ "/share/zsh" ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
