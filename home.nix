@@ -88,6 +88,7 @@
     curlie
     psmisc
     gitmoji-cli
+    devenv
   ];
   programs = {
     zoxide = {
