@@ -86,6 +86,8 @@
     rustc
     openssl
     curlie
+    psmisc
+    gitmoji-cli
   ];
   programs = {
     zoxide = {
@@ -94,14 +96,6 @@
       options = [
         "--cmd cd"
       ];
-    };
-    pyenv = {
-      enable = true;
-      enableZshIntegration = true;
-    };
-    rbenv = {
-      enable = true;
-      enableZshIntegration = true;
     };
     zsh = {
       enable = true;
@@ -118,11 +112,6 @@
           echo -n "($tw_kube_context)"
         fi
       }
-      autoload -U compinit && compinit
-      '';
-      initExtra = ''
-      source <(kubectl completion zsh)
-      compdef k='kubectl'
       '';
       shellAliases = {
         ll = "ls -l";
