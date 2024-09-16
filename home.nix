@@ -98,6 +98,10 @@
         "--cmd cd"
       ];
     };
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+    };
     zsh = {
       enable = true;
       enableCompletion = true;
