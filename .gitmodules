@@ -6,13 +6,13 @@
 	url = git@github.com:mhkarimi1383/kitty.git
 [submodule "nvim"]
 	path = nvim
-	url = git@github.com:mhkarimi1383/nvim
+	url = git@github.com:mhkarimi1383/nvim.git
 [submodule "waybar"]
 	path = waybar
-	url = git@github.com:mhkarimi1383/waybar
+	url = git@github.com:mhkarimi1383/waybar.git
 [submodule "fuzzel"]
 	path = fuzzel
-	url = git@github.com:mhkarimi1383/fuzzel
+	url = git@github.com:mhkarimi1383/fuzzel.git
 [submodule "typewritten"]
 	path = typewritten
 	url = https://github.com/reobin/typewritten.git
@@ -21,7 +21,7 @@
 	url = git@github.com:mhkarimi1383/dunst.git
 [submodule "lsd"]
 	path = lsd
-	url = git@github.com:mhkarimi1383/lsd
+	url = git@github.com:mhkarimi1383/lsd.git
 [submodule "bat"]
 	path = bat
 	url = git@github.com:mhkarimi1383/bat.git
