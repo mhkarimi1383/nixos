@@ -10,7 +10,7 @@
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.default
     ];
-
+  services.upower.enable = true;
   virtualisation.containers.enable = true;
   virtualisation = {
     podman = {
@@ -21,6 +21,12 @@
   };
   # Bootloader.
   boot = {
+    extraModulePackages = with config.boot.kernelPackages; [
+      v4l2loopback
+    ];
+    extraModprobeConfig = ''
+    options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+    '';
     plymouth = {
       enable = true;
       theme = "catppuccin-mocha";
@@ -40,6 +46,9 @@
       "rd.systemd.show_status=false"
       "rd.udev.log_level=3"
       "udev.log_priority=3"
+      "vt.default_red=30,243,166,249,137,245,148,186,88,243,166,249,137,245,148,166"
+      "vt.default_grn=30,139,227,226,180,194,226,194,91,139,227,226,180,194,226,173"
+      "vt.default_blu=46,168,161,175,250,231,213,222,112,168,161,175,250,231,213,200"
     ];
     # Hide the OS choice for bootloaders.
     # It's still possible to open the bootloader list by pressing any key
@@ -74,13 +83,18 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-
+  services.blueman = {
+      enable = true;
+    };
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
     variant = "";
   };
-
+  security.rtkit.enable = true;
+  security.polkit.enable = true;
+  powerManagement.enable = true;
+  services.thermald.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.karimi = {
     isNormalUser = true;
@@ -96,7 +110,11 @@
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
-      "karimi" = import ./home.nix;
+      "karimi" = {
+        imports = [
+          ./home.nix
+        ];
+      };
     };
   };
 
@@ -154,6 +172,21 @@
   system.stateVersion = "24.05"; # Did you read the comment?
   hardware.graphics = {
     enable = true;
+  };
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Enable = "Source,Sink,Media,Socket";
+    };
+    };
+  };
+
+  hardware.pulseaudio = {
+    enable = false;
+    package = pkgs.pulseaudioFull;
   };
 
   # Load nvidia driver for Xorg and Wayland
