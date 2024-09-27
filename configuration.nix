@@ -106,6 +106,10 @@
   programs.zsh.enable = true;
   programs.nix-ld.enable = true;
   users.defaultUserShell = pkgs.zsh;
+  programs.winbox = {
+      enable = true;
+      openFirewall = true;
+    };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };

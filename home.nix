@@ -14,32 +14,50 @@
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
-
   home.sessionPath = [
     "/home/karimi/.krew/bin"
   ];
-
   # The home.packages option allows you to install Nix packages into your
   # environment.
+  nixpkgs.overlays = [inputs.nixpkgs-wayland.overlay];
+  nixpkgs.config.allowUnfree = true;
+  xdg = {
+    portal = {
+      enable = true;
+      xdgOpenUsePortal = true;
+      config = {
+        common.default = ["gtk"];
+        hyprland.default = ["gtk" inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland "hyprland"];
+      };
+      extraPortals = [
+        pkgs.xdg-desktop-portal-gtk
+        inputs.nixpkgs-wayland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-wlr
+        inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
+      ];
+    };
+  };
+
   home.packages = with pkgs; [
+    polkit
+    polkit_gnome
     vim
     python312Full
     neovim
     tmux
     inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
     gcc
-    waybar
+    inputs.nixpkgs-wayland.packages.${system}.waybar
     brightnessctl
     playerctl
     networkmanagerapplet
     hyprpaper
     hypridle
     fuzzel
-    dunst
-    (nerdfonts.override { fonts = [ "ComicShannsMono" ]; })
+    inputs.nixpkgs-wayland.packages.${system}.dunst
+    (nerdfonts.override { fonts = [ "VictorMono" ]; })
     firefox
     kubectl
-    wlogout
+    inputs.nixpkgs-wayland.packages.${system}.wlogout
     jq
     kubecolor
     vazir-fonts
@@ -50,6 +68,7 @@
     prettyping
     viddy
     nerdfetch
+    fastfetch
     krew
     delve
     gopls
@@ -77,7 +96,7 @@
     luajit
     tree-sitter
     nodejs_22
-    wl-clipboard
+    inputs.nixpkgs-wayland.packages.${system}.wl-clipboard
     lua-language-server
     nginx-language-server
     python312Packages.python-lsp-server
@@ -88,9 +107,50 @@
     curlie
     psmisc
     gitmoji-cli
+    inputs.nixpkgs-wayland.packages.${system}.wlr-randr
     devenv
+    (hyprshot.override {hyprland = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland; })
+    unzip
+    (jetbrains.datagrip.override {
+      vmopts = ''
+      -Xms512m
+      -Xmx8192m
+      -XX:ReservedCodeCacheSize=512m
+      -XX:+IgnoreUnrecognizedVMOptions
+      -XX:+UseG1GC
+      -XX:SoftRefLRUPolicyMSPerMB=50
+      -XX:CICompilerCount=2
+      -XX:+HeapDumpOnOutOfMemoryError
+      -XX:-OmitStackTraceInFastThrow
+      -ea
+      -Dsun.io.useCanonCaches=false
+      -Djdk.http.auth.tunneling.disabledSchemes=""
+      -Djdk.attach.allowAttachSelf=true
+      -Djdk.module.illegalAccess.silent=true
+      -Dkotlinx.coroutines.debug=off
+      -XX:ErrorFile=$USER_HOME/java_error_in_idea_%p.log
+      -XX:HeapDumpPath=$USER_HOME/java_error_in_idea.hprof
+
+      --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
+      --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
+
+      -javaagent:/home/karimi/ja-netfilter/ja-netfilter.jar=jetbrains
+      '';
+    })
+    kubernetes-helm
+    chromium
+    nixfmt-rfc-style
+    podman-desktop
   ];
   programs = {
+    obs-studio = {
+      enable = true;
+      plugins = with pkgs.obs-studio-plugins; [
+        wlrobs
+        obs-backgroundremoval
+        obs-pipewire-audio-capture
+      ];
+    };
     zoxide = {
       enable = true;
       enableZshIntegration = true;
@@ -181,7 +241,7 @@
       defaultFonts = {
         serif = [ "Vazirmatn" ];
         sansSerif = [ "Vazirmatn" ];
-        monospace = [ "ComicShannsMono Nerd Font Mono" ];
+        monospace = [ "VictorMono Nerd Font Mono" ];
       };
     };
   };
@@ -257,11 +317,33 @@
     EDITOR = "nvim";
     NIXOS_OZONE_WL = "1";
   };
+  systemd = {
+    user.services.polkit-gnome-authentication-agent-1 = {
+      Unit = {
+        Description = "polkit-gnome-authentication-agent-1";
+        After = [ "graphical-session.target" ];
+        Wants = [ "graphical-session.target" ];
+      };
+      Install = {
+        WantedBy = [ "graphical-session.target" "default.target" ];
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
+      };
+    };
+  };
+
+
   wayland = {
     windowManager = {
         hyprland = {
         enable = true;
         extraConfig = (builtins.readFile hypr/hyprland.conf);
+        systemd.enable = true;
         xwayland = {
           enable = true;
         };
@@ -270,12 +352,15 @@
     };
   };
   services = {
+    blueman-applet = {
+      enable = true;
+    };
     hyprpaper = {
       enable = true;
       settings = {
-preload = "~/.config/hypr/assets/dark-cat-rosewater.png";
-wallpaper = ",~/.config/hypr/assets/dark-cat-rosewater.png";
-};
+        preload = "~/.config/hypr/assets/dark-cat-rosewater.png";
+        wallpaper = ",~/.config/hypr/assets/dark-cat-rosewater.png";
+        };
     };
     hypridle = {
       enable = true;
