@@ -26,13 +26,21 @@
       enable = true;
       xdgOpenUsePortal = true;
       config = {
-        common.default = ["gtk"];
-        hyprland.default = ["gtk" inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland "hyprland"];
+        common.default = [
+          "hyprland"
+          "wlr"
+          "gtk"
+        ];
+        hyprland.default = [
+          "hyprland"
+          "wlr"
+          "gtk"
+        ];
       };
       extraPortals = [
-        pkgs.xdg-desktop-portal-gtk
-        inputs.nixpkgs-wayland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-wlr
         inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
+        inputs.nixpkgs-wayland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-wlr
+        pkgs.xdg-desktop-portal-gtk
       ];
     };
   };
@@ -141,6 +149,8 @@
     chromium
     nixfmt-rfc-style
     podman-desktop
+    geek-life
+    dive
   ];
   programs = {
     obs-studio = {
