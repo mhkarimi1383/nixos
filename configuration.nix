@@ -167,6 +167,20 @@
     };
   };
 
+  systemd.services = {
+      battery-charge-threshold = {
+        description = "Set the battery charge threshold";
+        after = ["multi-user.target"];
+        startLimitBurst = 0;
+        serviceConfig = {
+          Type = "oneshot";
+          Restart = "on-failure";
+          ExecStart = "/run/current-system/sw/bin/bash -c 'echo 60 > /sys/class/power_supply/BAT0/charge_control_end_threshold'";
+        };
+        wantedBy = ["graphical-session.target" "default.target"];
+      };
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
