@@ -154,6 +154,7 @@
     php
     nvtopPackages.full
     cava
+    kind
   ];
   programs = {
     obs-studio = {
@@ -234,6 +235,7 @@
         TYPEWRITTEN_RELATIVE_PATH = "home";
         TYPEWRITTEN_LEFT_PROMPT_PREFIX_FUNCTION = "display_kube_context";
         HISTCONTROL = "ignoreboth";
+        KIND_EXPERIMENTAL_PROVIDER = "podman";
       };
       oh-my-zsh = {
         enable = true;
