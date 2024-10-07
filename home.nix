@@ -155,6 +155,7 @@
     nvtopPackages.full
     cava
     kind
+    smartmontools
   ];
   programs = {
     obs-studio = {

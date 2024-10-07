@@ -10,7 +10,6 @@
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.default
     ];
-  services.upower.enable = true;
   virtualisation.containers.enable = true;
   virtualisation = {
     podman = {
@@ -83,18 +82,10 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-  services.blueman = {
-      enable = true;
-    };
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
+
   security.rtkit.enable = true;
   security.polkit.enable = true;
   powerManagement.enable = true;
-  services.thermald.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.karimi = {
     isNormalUser = true;
@@ -144,9 +135,27 @@
 
   # List services that you want to enable:
 
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
   services = {
+    smartd = {
+      enable = true;
+      devices = [
+        {
+          device = "/dev/nvme0n1";
+        }
+      ];
+    };
+    blueman = {
+      enable = true;
+    };
+    thermald.enable = true;
+    upower.enable = true;
+    xserver = {
+      videoDrivers = ["nvidia"];
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
+    };
     displayManager = {
       ly = {
         enable = true;
@@ -208,7 +217,6 @@
   };
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
 
