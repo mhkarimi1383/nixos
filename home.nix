@@ -257,9 +257,9 @@
     fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [ "Vazirmatn" ];
-        sansSerif = [ "Vazirmatn" ];
-        monospace = [ "Recursive Nerd Font Mono" ];
+        serif = [ "RecMonoCasual Nerd Font" "Vazirmatn" ];
+        sansSerif = [ "RecMonoCasual Nerd Font" "Vazirmatn" ];
+        monospace = [ "RecMonoCasual Nerd Font Mono" ];
       };
     };
   };
