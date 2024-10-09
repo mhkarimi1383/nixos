@@ -156,6 +156,8 @@
     cava
     kind
     smartmontools
+    cloudflare-warp
+    remmina
   ];
   programs = {
     obs-studio = {
@@ -330,8 +332,14 @@
   #  /etc/profiles/per-user/karimi/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "nvim";
+    XDG_CURRENT_DESKTOP = "Hyprland";
+    XDG_SESSION_TYPE = "wayland";
+    XDG_SESSION_DESKTOP = "Hyprland";
+    MOZ_ENABLE_WAYLAND = "1";
     NIXOS_OZONE_WL = "1";
+    T_QPA_PLATFORM = "wayland";
+    GDK_BACKEND = "wayland";
+    WLR_NO_HARDWARE_CURSORS = "1";
   };
   systemd = {
     user.services = {
