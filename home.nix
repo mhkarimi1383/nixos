@@ -62,7 +62,7 @@
     hypridle
     fuzzel
     inputs.nixpkgs-wayland.packages.${system}.dunst
-    (nerdfonts.override { fonts = [ "VictorMono" ]; })
+    (nerdfonts.override { fonts = [ "RecMono" ]; })
     firefox
     kubectl
     inputs.nixpkgs-wayland.packages.${system}.wlogout
@@ -259,7 +259,7 @@
       defaultFonts = {
         serif = [ "Vazirmatn" ];
         sansSerif = [ "Vazirmatn" ];
-        monospace = [ "VictorMono Nerd Font Mono" ];
+        monospace = [ "RecMono Nerd Font Mono" ];
       };
     };
   };
