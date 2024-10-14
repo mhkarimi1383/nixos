@@ -102,6 +102,7 @@
     gomodifytags
     iferr
     luajit
+    luajitPackages.luarocks
     tree-sitter
     nodejs_22
     inputs.nixpkgs-wayland.packages.${system}.wl-clipboard
@@ -158,6 +159,7 @@
     smartmontools
     cloudflare-warp
     remmina
+    pnpm
   ];
   programs = {
     obs-studio = {
