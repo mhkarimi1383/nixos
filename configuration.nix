@@ -10,8 +10,13 @@
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.default
     ];
-  virtualisation.containers.enable = true;
   virtualisation = {
+    containers = {
+      enable = true;
+    };
+    libvirtd = {
+      enable = true;
+    };
     podman = {
       enable = true;
       dockerCompat = true;
@@ -83,24 +88,44 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  security.rtkit.enable = true;
-  security.polkit.enable = true;
+  security = {
+    rtkit = {
+      enable = true;
+    };
+    polkit = {
+      enable = true;
+    };
+  };
+
   powerManagement.enable = true;
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.karimi = {
-    isNormalUser = true;
-    description = "Muhammed Hussein Karimi";
-    extraGroups = [ "networkmanager" "wheel" ];
-    useDefaultShell = true;
-    # packages = with pkgs; [];
+  users = {
+    defaultUserShell = pkgs.zsh;
+    users = {
+        karimi = {
+        isNormalUser = true;
+        description = "Muhammed Hussein Karimi";
+        extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
+        useDefaultShell = true;
+        # packages = with pkgs; [];
+      };
+    };
   };
-  programs.zsh.enable = true;
-  programs.nix-ld.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-  programs.winbox = {
+  programs = {
+    zsh = {
+      enable = true;
+    };
+    nix-ld = {
+      enable = true;
+    };
+    winbox = {
       enable = true;
       openFirewall = true;
     };
+    virt-manager = {
+      enable = true;
+    };
+  };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };

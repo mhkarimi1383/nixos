@@ -1,26 +1,16 @@
 { inputs, config, pkgs, ... }:
 
 {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
-  home.username = "karimi";
-  home.homeDirectory = "/home/karimi";
-
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "24.05"; # Please read the comment before changing.
-  home.sessionPath = [
-    "/home/karimi/.krew/bin"
-  ];
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
   nixpkgs.overlays = [inputs.nixpkgs-wayland.overlay];
   nixpkgs.config.allowUnfree = true;
+  dconf = {
+    settings = {
+      "org/virt-manager/virt-manager/connections" = {
+        autoconnect = ["qemu:///system"];
+        uris = ["qemu:///system"];
+      };
+    };
+  };
   xdg = {
     portal = {
       enable = true;
@@ -44,123 +34,128 @@
       ];
     };
   };
+  home = {
+    username = "karimi";
+    homeDirectory = "/home/karimi";
+    stateVersion = "24.05";
+    packages = with pkgs; [
+      polkit
+      polkit_gnome
+      vim
+      python312Full
+      neovim
+      tmux
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
+      gcc
+      inputs.nixpkgs-wayland.packages.${system}.waybar
+      brightnessctl
+      playerctl
+      networkmanagerapplet
+      hyprpaper
+      hypridle
+      fuzzel
+      inputs.nixpkgs-wayland.packages.${system}.dunst
+      (nerdfonts.override { fonts = [ "Recursive" "CascadiaCode" "CascadiaMono" ]; })
+      firefox
+      kubectl
+      inputs.nixpkgs-wayland.packages.${system}.wlogout
+      jq
+      kubecolor
+      vazir-fonts
+      lsd
+      btop
+      bat
+      dogdns
+      prettyping
+      viddy
+      nerdfetch
+      fastfetch
+      krew
+      delve
+      gopls
+      pyright
+      fzf
+      ansible
+      ansible-lint
+      go
+      materialgram
+      p7zip
+      clipse
+      ripgrep
+      gnumake
+      golines
+      gotools
+      reftools
+      golangci-lint
+      govulncheck
+      mockgen
+      impl
+      ginkgo
+      gofumpt
+      gomodifytags
+      iferr
+      luajit
+      luajitPackages.luarocks
+      tree-sitter
+      nodejs_22
+      inputs.nixpkgs-wayland.packages.${system}.wl-clipboard
+      lua-language-server
+      nginx-language-server
+      python312Packages.python-lsp-server
+      nil
+      cargo
+      rustc
+      openssl
+      curlie
+      psmisc
+      gitmoji-cli
+      inputs.nixpkgs-wayland.packages.${system}.wlr-randr
+      devenv
+      (hyprshot.override {hyprland = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland; })
+      unzip
+      (jetbrains.datagrip.override {
+        vmopts = ''
+        -Xms512m
+        -Xmx8192m
+        -XX:ReservedCodeCacheSize=512m
+        -XX:+IgnoreUnrecognizedVMOptions
+        -XX:+UseG1GC
+        -XX:SoftRefLRUPolicyMSPerMB=50
+        -XX:CICompilerCount=2
+        -XX:+HeapDumpOnOutOfMemoryError
+        -XX:-OmitStackTraceInFastThrow
+        -ea
+        -Dsun.io.useCanonCaches=false
+        -Djdk.http.auth.tunneling.disabledSchemes=""
+        -Djdk.attach.allowAttachSelf=true
+        -Djdk.module.illegalAccess.silent=true
+        -Dkotlinx.coroutines.debug=off
+        -XX:ErrorFile=$USER_HOME/java_error_in_idea_%p.log
+        -XX:HeapDumpPath=$USER_HOME/java_error_in_idea.hprof
 
-  home.packages = with pkgs; [
-    polkit
-    polkit_gnome
-    vim
-    python312Full
-    neovim
-    tmux
-    inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
-    gcc
-    inputs.nixpkgs-wayland.packages.${system}.waybar
-    brightnessctl
-    playerctl
-    networkmanagerapplet
-    hyprpaper
-    hypridle
-    fuzzel
-    inputs.nixpkgs-wayland.packages.${system}.dunst
-    (nerdfonts.override { fonts = [ "Recursive" "CascadiaCode" "CascadiaMono" ]; })
-    firefox
-    kubectl
-    inputs.nixpkgs-wayland.packages.${system}.wlogout
-    jq
-    kubecolor
-    vazir-fonts
-    lsd
-    btop
-    bat
-    dogdns
-    prettyping
-    viddy
-    nerdfetch
-    fastfetch
-    krew
-    delve
-    gopls
-    pyright
-    fzf
-    ansible
-    ansible-lint
-    go
-    materialgram
-    p7zip
-    clipse
-    ripgrep
-    gnumake
-    golines
-    gotools
-    reftools
-    golangci-lint
-    govulncheck
-    mockgen
-    impl
-    ginkgo
-    gofumpt
-    gomodifytags
-    iferr
-    luajit
-    luajitPackages.luarocks
-    tree-sitter
-    nodejs_22
-    inputs.nixpkgs-wayland.packages.${system}.wl-clipboard
-    lua-language-server
-    nginx-language-server
-    python312Packages.python-lsp-server
-    nil
-    cargo
-    rustc
-    openssl
-    curlie
-    psmisc
-    gitmoji-cli
-    inputs.nixpkgs-wayland.packages.${system}.wlr-randr
-    devenv
-    (hyprshot.override {hyprland = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland; })
-    unzip
-    (jetbrains.datagrip.override {
-      vmopts = ''
-      -Xms512m
-      -Xmx8192m
-      -XX:ReservedCodeCacheSize=512m
-      -XX:+IgnoreUnrecognizedVMOptions
-      -XX:+UseG1GC
-      -XX:SoftRefLRUPolicyMSPerMB=50
-      -XX:CICompilerCount=2
-      -XX:+HeapDumpOnOutOfMemoryError
-      -XX:-OmitStackTraceInFastThrow
-      -ea
-      -Dsun.io.useCanonCaches=false
-      -Djdk.http.auth.tunneling.disabledSchemes=""
-      -Djdk.attach.allowAttachSelf=true
-      -Djdk.module.illegalAccess.silent=true
-      -Dkotlinx.coroutines.debug=off
-      -XX:ErrorFile=$USER_HOME/java_error_in_idea_%p.log
-      -XX:HeapDumpPath=$USER_HOME/java_error_in_idea.hprof
+        --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
+        --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
 
-      --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
-      --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
-
-      -javaagent:/home/karimi/ja-netfilter/ja-netfilter.jar=jetbrains
-      '';
-    })
-    kubernetes-helm
-    chromium
-    nixfmt-rfc-style
-    podman-desktop
-    geek-life
-    dive
-    php
-    nvtopPackages.full
-    cava
-    kind
-    smartmontools
-    cloudflare-warp
-    remmina
-    pnpm
-  ];
+        -javaagent:/home/karimi/ja-netfilter/ja-netfilter.jar=jetbrains
+        '';
+      })
+      kubernetes-helm
+      chromium
+      nixfmt-rfc-style
+      podman-desktop
+      geek-life
+      dive
+      php
+      nvtopPackages.full
+      cava
+      kind
+      smartmontools
+      cloudflare-warp
+      remmina
+      pnpm
+      persepolis
+    ];
+  };
   programs = {
     obs-studio = {
       enable = true;
