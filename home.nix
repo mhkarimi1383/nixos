@@ -35,6 +35,9 @@
     };
   };
   home = {
+    sessionPath = [
+      "/home/karimi/.krew/bin"
+    ];
     username = "karimi";
     homeDirectory = "/home/karimi";
     stateVersion = "24.05";
@@ -345,22 +348,64 @@
     WLR_NO_HARDWARE_CURSORS = "1";
   };
   systemd = {
-    user.services = {
-      polkit-gnome-authentication-agent-1 = {
-        Unit = {
-          Description = "polkit-gnome-authentication-agent-1";
-          After = [ "graphical-session.target" ];
-          Wants = [ "graphical-session.target" ];
+    user = {
+      timers = {
+        battery-warning = {
+          Install = {
+            WantedBy = [ "timers.target" ];
+          };
+          Timer = {
+            Unit = "battery-warning";
+            OnBootSec = "1m";
+            OnUnitActiveSec = "1m";
+          };
         };
-        Install = {
-          WantedBy = [ "graphical-session.target" "default.target" ];
+      };
+      services = {
+        battery-warning = {
+          Service = {
+            Type = "oneshot";
+            User = "root";
+            Restart = "on-failure";
+            RestartSec = 1;
+            TimeoutStopSec = 10;
+            ExecStart = toString (
+              pkgs.writeShellScript "battery-warning-script" ''
+              set -eu
+              STATUS=$(cat /sys/class/power_supply/BAT0/status)
+              CURRENT_CAPACITY=$(cat /sys/class/power_supply/BAT0/capacity)
+              if [ "$STATUS" == "Discharging" ]; then
+                if [ "$CURRENT_CAPACITY" -gt 22 ] && [ "$CURRENT_CAPACITY" -lt 26 ]; then
+                  dunstify -a system -t 9000 -r 9990 -u normal "Battery Running Low" "$CURRENT_CAPACITY% Remaining"
+
+                elif [ "$CURRENT_CAPACITY" -gt 12 ] && [ "$CURRENT_CAPACITY" -lt 16 ]; then
+                  dunstify -a system -t 9000 -r 9990 -u critical "Low Battery: $CURRENT_CAPACITY%" "Connect charger\nWill Hibernate soon"
+
+
+                elif [ "$CURRENT_CAPACITY" -lt 11 ]; then
+                  dunstify -a system -t 0 -r 9990 -u critical "Battery Critically Low" "$CURRENT_CAPACITY% Remaining."
+                fi
+              fi
+              ''
+            );
+          };
         };
-        Service = {
-          Type = "simple";
-          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-          Restart = "on-failure";
-          RestartSec = 1;
-          TimeoutStopSec = 10;
+        polkit-gnome-authentication-agent-1 = {
+          Unit = {
+            Description = "polkit-gnome-authentication-agent-1";
+            After = [ "graphical-session.target" ];
+            Wants = [ "graphical-session.target" ];
+          };
+          Install = {
+            WantedBy = [ "graphical-session.target" "default.target" ];
+          };
+          Service = {
+            Type = "simple";
+            ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+            Restart = "on-failure";
+            RestartSec = 1;
+            TimeoutStopSec = 10;
+          };
         };
       };
     };
