@@ -14,8 +14,20 @@
     containers = {
       enable = true;
     };
+    spiceUSBRedirection = {
+      enable = true;
+    };
     libvirtd = {
       enable = true;
+      qemu = {
+        swtpm = {
+          enable = true;
+        };
+        ovmf = {
+          enable = true;
+          packages = [ pkgs.OVMFFull.fd ];
+        };
+      };
     };
     podman = {
       enable = true;
@@ -161,6 +173,9 @@
   # List services that you want to enable:
 
   services = {
+    spice-vdagentd = {
+      enable = true;
+    };
     smartd = {
       enable = true;
       devices = [

@@ -154,6 +154,12 @@
       remmina
       pnpm
       persepolis
+      qemu_full
+      glxinfo
+      usbutils
+      swtpm
+      procps
+      pciutils
     ];
   };
   programs = {
