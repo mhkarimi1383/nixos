@@ -37,6 +37,7 @@
   home = {
     sessionPath = [
       "/home/karimi/.krew/bin"
+      "/home/karimi/.npm-packages/bin"
     ];
     username = "karimi";
     homeDirectory = "/home/karimi";
@@ -248,6 +249,7 @@
         TYPEWRITTEN_LEFT_PROMPT_PREFIX_FUNCTION = "display_kube_context";
         HISTCONTROL = "ignoreboth";
         KIND_EXPERIMENTAL_PROVIDER = "podman";
+        NODE_PATH = "/home/karimi/.npm-packages/lib/node_modules";
       };
       oh-my-zsh = {
         enable = true;
@@ -307,6 +309,9 @@
     ".config/bat" = {
       source = ./bat;
       recursive = true;
+    };
+    ".npmrc" = {
+      source = ./npmrc;
     };
     ".local/share/zsh/custom/themes/typewritten" = {
       source = ./typewritten;
