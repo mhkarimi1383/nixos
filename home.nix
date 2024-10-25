@@ -58,7 +58,8 @@
       hypridle
       fuzzel
       inputs.nixpkgs-wayland.packages.${system}.dunst
-      (nerdfonts.override { fonts = [ "Recursive" "CascadiaCode" "CascadiaMono" ]; })
+      go-font
+      (nerdfonts.override { fonts = [ "CascadiaCode" "CascadiaMono" "Go-Mono" ]; })
       firefox
       kubectl
       inputs.nixpkgs-wayland.packages.${system}.wlogout
@@ -163,6 +164,8 @@
       swtpm
       procps
       pciutils
+      php
+      php.packages.composer
     ];
   };
   programs = {
@@ -263,9 +266,9 @@
     fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [ "CaskaydiaCove Nerd Font" "Vazirmatn" ];
-        sansSerif = [ "CaskaydiaCove Nerd Font" "Vazirmatn" ];
-        monospace = [ "CaskaydiaCove Nerd Font Mono" ];
+        serif = [ "Go" "Vazirmatn" ];
+        sansSerif = [ "Go" "Vazirmatn" ];
+        monospace = [ "GoMono Nerd Font Mono" ];
       };
     };
   };
