@@ -145,7 +145,6 @@
         '';
       })
       kubernetes-helm
-      chromium
       nixfmt-rfc-style
       podman-desktop
       geek-life
@@ -167,6 +166,9 @@
       pciutils
       php
       php.packages.composer
+      podman-compose
+      rustdesk
+      anydesk
     ];
   };
   programs = {
