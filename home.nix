@@ -59,8 +59,7 @@
       hypridle
       fuzzel
       inputs.nixpkgs-wayland.packages.${system}.dunst
-      go-font
-      (nerdfonts.override { fonts = [ "CascadiaCode" "CascadiaMono" "Go-Mono" ]; })
+      (nerdfonts.override { fonts = [ "FiraCode" ]; })
       firefox
       kubectl
       inputs.nixpkgs-wayland.packages.${system}.wlogout
@@ -270,9 +269,9 @@
     fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [ "Go" "Vazirmatn" ];
-        sansSerif = [ "Go" "Vazirmatn" ];
-        monospace = [ "GoMono Nerd Font Mono" ];
+        serif = [ "Vazirmatn" ];
+        sansSerif = [ "Vazirmatn" ];
+        monospace = [ "FiraCode Nerd Font Mono" ];
       };
     };
   };
