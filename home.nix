@@ -150,7 +150,6 @@
       dive
       php
       nvtopPackages.full
-      cava
       kind
       smartmontools
       cloudflare-warp
@@ -168,6 +167,7 @@
       podman-compose
       rustdesk
       anydesk
+      yazi
     ];
   };
   programs = {
