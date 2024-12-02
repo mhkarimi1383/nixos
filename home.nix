@@ -43,6 +43,8 @@
     homeDirectory = "/home/karimi";
     stateVersion = "24.05";
     packages = with pkgs; [
+      (minikube.override { withQemu = true; libvirt = pkgs.libvirt; } )
+      gimp
       polkit
       polkit_gnome
       vim
@@ -106,6 +108,7 @@
       lua-language-server
       nginx-language-server
       python312Packages.python-lsp-server
+      python312Packages.debugpy
       nil
       cargo
       rustc
@@ -364,7 +367,7 @@
             WantedBy = [ "timers.target" ];
           };
           Timer = {
-            Unit = "battery-warning";
+            Unit = "battery-warning.service";
             OnBootSec = "1m";
             OnUnitActiveSec = "1m";
           };
@@ -374,7 +377,6 @@
         battery-warning = {
           Service = {
             Type = "oneshot";
-            User = "root";
             Restart = "on-failure";
             RestartSec = 1;
             TimeoutStopSec = 10;
