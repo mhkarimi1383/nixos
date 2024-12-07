@@ -49,7 +49,7 @@
       polkit_gnome
       vim
       python312Full
-      neovim
+      (neovim.override {withNodeJs = true;})
       tmux
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
       gcc
@@ -100,8 +100,8 @@
       gofumpt
       gomodifytags
       iferr
-      luajit
-      luajitPackages.luarocks
+      (luajit.withPackages(luajitPackages: [luajitPackages.magick luajitPackages.luarocks]))
+      imagemagick
       tree-sitter
       nodejs_22
       inputs.nixpkgs-wayland.packages.${system}.wl-clipboard
