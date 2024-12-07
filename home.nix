@@ -41,14 +41,14 @@
     ];
     username = "karimi";
     homeDirectory = "/home/karimi";
-    stateVersion = "24.05";
+    stateVersion = "25.05";
     packages = with pkgs; [
       (minikube.override { withQemu = true; libvirt = pkgs.libvirt; } )
       gimp
       polkit
       polkit_gnome
       vim
-      python312Full
+      python3Full
       (neovim.override {withNodeJs = true;})
       tmux
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
@@ -61,7 +61,7 @@
       hypridle
       fuzzel
       inputs.nixpkgs-wayland.packages.${system}.dunst
-      (nerdfonts.override { fonts = [ "Inconsolata" ]; })
+      nerd-fonts.inconsolata
       firefox
       kubectl
       inputs.nixpkgs-wayland.packages.${system}.wlogout
@@ -107,8 +107,8 @@
       inputs.nixpkgs-wayland.packages.${system}.wl-clipboard
       lua-language-server
       nginx-language-server
-      python312Packages.python-lsp-server
-      python312Packages.debugpy
+      python3Packages.python-lsp-server
+      python3Packages.debugpy
       nil
       cargo
       rustc
