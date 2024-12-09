@@ -211,6 +211,7 @@
       '';
       shellAliases = {
         ll = "ls -l";
+        upgrade = "sudo nix flake update && sudo nixos-rebuild switch --flake '/etc/nixos?submodules=1#default --upgrade --upgrade-all -v";
         update = "sudo nixos-rebuild switch --flake '/etc/nixos?submodules=1#default'";
         make = "make -j$(nproc)";
         ninja = "ninja -j$(nproc)";
