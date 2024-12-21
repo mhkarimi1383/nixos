@@ -43,83 +43,41 @@
     homeDirectory = "/home/karimi";
     stateVersion = "25.05";
     packages = with pkgs; [
+      kind
+      ansible
+      ansible-lint
+      kubectl
+      kubecolor
+      kubernetes-helm
+      krew
       (minikube.override { withQemu = true; libvirt = pkgs.libvirt; } )
-      gimp
+
       polkit
       polkit_gnome
+
       vim
-      python3Full
       (neovim.override {withNodeJs = true;})
       tmux
+
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
-      gcc
       inputs.nixpkgs-wayland.packages.${system}.waybar
-      brightnessctl
-      playerctl
-      networkmanagerapplet
+      inputs.nixpkgs-wayland.packages.${system}.dunst
+      inputs.nixpkgs-wayland.packages.${system}.wlogout
+      inputs.nixpkgs-wayland.packages.${system}.wl-clipboard
+      inputs.nixpkgs-wayland.packages.${system}.wlr-randr
+      (hyprshot.override {hyprland = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland; })
       hyprpaper
       hypridle
       fuzzel
-      inputs.nixpkgs-wayland.packages.${system}.dunst
-      nerd-fonts.inconsolata
       firefox
-      kubectl
-      inputs.nixpkgs-wayland.packages.${system}.wlogout
-      jq
-      kubecolor
-      vazir-fonts
-      lsd
-      btop
-      bat
-      dogdns
-      prettyping
-      viddy
-      nerdfetch
-      fastfetch
-      krew
-      delve
-      gopls
-      pyright
-      fzf
-      ansible
-      ansible-lint
-      go
-      materialgram
-      p7zip
+      networkmanagerapplet
+      brightnessctl
+      playerctl
       clipse
-      ripgrep
-      gnumake
-      golines
-      gotools
-      reftools
-      golangci-lint
-      govulncheck
-      mockgen
-      impl
-      ginkgo
-      gofumpt
-      gomodifytags
-      iferr
-      (luajit.withPackages(luajitPackages: [luajitPackages.magick luajitPackages.luarocks]))
-      imagemagick
-      tree-sitter
-      nodejs_22
-      inputs.nixpkgs-wayland.packages.${system}.wl-clipboard
-      lua-language-server
-      nginx-language-server
-      python3Packages.python-lsp-server
-      python3Packages.debugpy
-      nil
-      cargo
-      rustc
-      openssl
-      curlie
-      psmisc
-      gitmoji-cli
-      inputs.nixpkgs-wayland.packages.${system}.wlr-randr
-      devenv
-      (hyprshot.override {hyprland = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland; })
-      unzip
+
+      nerd-fonts.inconsolata
+      vazir-fonts
+
       (jetbrains.datagrip.override {
         vmopts = ''
         -Xms512m
@@ -146,18 +104,70 @@
         -javaagent:/home/karimi/ja-netfilter/ja-netfilter.jar=jetbrains
         '';
       })
-      kubernetes-helm
+      python3Full
+      go
+      gnumake
+      golines
+      gotools
+      reftools
+      golangci-lint
+      govulncheck
+      mockgen
+      impl
+      ginkgo
+      gofumpt
+      gomodifytags
+      iferr
+      delve
+      gopls
+      pyright
+      gcc
+      tree-sitter
+      nodejs_22
+      lua-language-server
+      nginx-language-server
+      python3Packages.python-lsp-server
+      python3Packages.debugpy
+      (luajit.withPackages(luajitPackages: [luajitPackages.magick luajitPackages.luarocks]))
+      devenv
+      nil
       nixfmt-rfc-style
-      podman-desktop
-      geek-life
-      dive
       php
+      php.packages.composer
+      pnpm
+
+      podman-desktop
+      podman-compose
+      dive
+
+      cava
+      gimp
+      jq
+      lsd
+      btop
+      bat
+      dogdns
+      prettyping
+      viddy
+      nerdfetch
+      fastfetch
+      fzf
+      materialgram
+      p7zip
+      ripgrep
+      imagemagick
+      cargo
+      rustc
+      openssl
+      curlie
+      psmisc
+      gitmoji-cli
+      unzip
+      geek-life
       nvtopPackages.full
-      kind
       smartmontools
       cloudflare-warp
       remmina
-      pnpm
       persepolis
       qemu_full
       glxinfo
@@ -165,9 +175,6 @@
       swtpm
       procps
       pciutils
-      php
-      php.packages.composer
-      podman-compose
       rustdesk
       anydesk
       yazi

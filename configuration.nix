@@ -198,7 +198,12 @@
     thermald.enable = true;
     upower.enable = true;
     xserver = {
-      videoDrivers = ["nvidia"];
+      videoDrivers =
+      [
+        "modesetting"
+        "fbdev"
+        "nvidia"
+      ];
       xkb = {
         layout = "us";
         variant = "";
