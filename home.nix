@@ -106,6 +106,7 @@
       })
       python3Full
       go
+      cobra-cli
       gnumake
       golines
       gotools
