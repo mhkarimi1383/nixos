@@ -141,11 +141,17 @@
       podman-compose
       dive
 
+      cloudflare-warp
+      nekoray
+
       cava
+      yazi
       gimp
       jq
       lsd
       btop
+      curlie
+      ripgrep
       bat
       dogdns
       prettyping
@@ -155,19 +161,16 @@
       fzf
       materialgram
       p7zip
-      ripgrep
       imagemagick
       cargo
       rustc
       openssl
-      curlie
       psmisc
       gitmoji-cli
       unzip
       geek-life
       nvtopPackages.full
       smartmontools
-      cloudflare-warp
       remmina
       persepolis
       qemu_full
@@ -176,9 +179,9 @@
       swtpm
       procps
       pciutils
+
       rustdesk
       anydesk
-      yazi
     ];
   };
   programs = {

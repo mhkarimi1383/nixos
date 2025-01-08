@@ -215,11 +215,13 @@
       };
     };
   };
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking = {
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 80 443 8080 8000 8443 6443 3000 5000 ];
+      allowedUDPPorts = [];
+    };
+  };
 
   programs = {
     hyprland = {
