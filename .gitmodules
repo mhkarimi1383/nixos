@@ -25,3 +25,6 @@
 [submodule "bat"]
 	path = bat
 	url = git@github.com:mhkarimi1383/bat.git
+[submodule "tmux"]
+	path = tmux
+	url = git@github.com:mhkarimi1383/tmux.git
