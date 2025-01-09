@@ -336,8 +336,12 @@
     ".tmux.conf" = {
       source = ./tmux/tmux.conf;
     };
-    "~/.config/tmux/plugins/catppuccin/tmux" = {
+    ".config/tmux/plugins/catppuccin/tmux" = {
       source = ./tmux/catppuccin;
+      recursive = true;
+    };
+    ".tmux/plugins/tpm" = {
+      source = ./tmux/tpm;
       recursive = true;
     };
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
