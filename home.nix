@@ -136,6 +136,7 @@
       php
       php.packages.composer
       pnpm
+      gitmux
 
       podman-desktop
       podman-compose
@@ -343,6 +344,9 @@
     ".tmux/plugins/tpm" = {
       source = ./tmux/tpm;
       recursive = true;
+    };
+    ".gitmux.conf" = {
+      source = ./tmux/gitmux.conf;
     };
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
