@@ -74,6 +74,8 @@
       brightnessctl
       playerctl
       clipse
+      # inputs.helmwave.helmwave
+      catppuccin-cursors.mochaDark
 
       nerd-fonts.inconsolata
       vazir-fonts
