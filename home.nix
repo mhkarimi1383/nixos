@@ -111,7 +111,7 @@
       cobra-cli
       gnumake
       golines
-      gotools
+      # gotools
       reftools
       golangci-lint
       govulncheck
@@ -139,6 +139,7 @@
       php.packages.composer
       pnpm
       gitmux
+      ruby
 
       podman-desktop
       podman-compose
@@ -222,6 +223,10 @@
           echo -n "($tw_kube_context)"
         fi
       }
+      '';
+      initExtra = ''
+        compdef kubecolor=kubectl
+        compdef k=kubectl
       '';
       shellAliases = {
         ll = "ls -l";
@@ -349,6 +354,9 @@
     };
     ".gitmux.conf" = {
       source = ./tmux/gitmux.conf;
+    };
+    "~/.config/yazi/theme.toml" = {
+      source = ./yazi/themes/mocha/catppuccin-mocha-lavender.toml;
     };
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
