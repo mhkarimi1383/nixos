@@ -41,7 +41,7 @@
       v4l2loopback
     ];
     extraModprobeConfig = ''
-    options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
     '';
     plymouth = {
       enable = true;
@@ -160,6 +160,25 @@
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
       trusted-users = [ "root" "karimi" ];
+      sandbox = true;
+      auto-optimise-store = true;
+      cores = 5;
+      substituters = [
+        "https://hyprland.cachix.org"
+        "https://nix-community.cachix.org"
+        "https://nix-gaming.cachix.org"
+        "https://cache.nixos.org"
+        "https://nixpkgs-wayland.cachix.org"
+      ];
+      trusted-public-keys = [
+        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+        "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+      ];
+
     };
   };
 
@@ -259,8 +278,23 @@
     };
     };
   };
-
-  hardware.pulseaudio = {
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
+  services.pipewire.wireplumber.extraConfig.bluetoothEnhancements = {
+    "monitor.bluez.properties" = {
+        "bluez5.enable-sbc-xq" = true;
+        "bluez5.enable-msbc" = true;
+        "bluez5.enable-hw-volume" = true;
+        "bluez5.roles" = [ "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag" ];
+    };
+  };
+  services.pulseaudio = {
     enable = false;
     package = pkgs.pulseaudioFull;
   };

@@ -66,8 +66,8 @@
       inputs.nixpkgs-wayland.packages.${system}.wl-clipboard
       inputs.nixpkgs-wayland.packages.${system}.wlr-randr
       (hyprshot.override {hyprland = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland; })
-      hyprpaper
-      hypridle
+      inputs.hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper
+      inputs.hypridle.packages.${pkgs.stdenv.hostPlatform.system}.hypridle
       fuzzel
       firefox
       networkmanagerapplet
@@ -177,7 +177,7 @@
       smartmontools
       remmina
       persepolis
-      qemu_full
+      (qemu_full.override {cephSupport = false;})
       glxinfo
       usbutils
       swtpm
@@ -463,13 +463,14 @@
   wayland = {
     windowManager = {
         hyprland = {
-        enable = true;
-        extraConfig = (builtins.readFile hypr/hyprland.conf);
-        systemd.enable = true;
-        xwayland = {
           enable = true;
-        };
-        package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+          extraConfig = (builtins.readFile hypr/hyprland.conf);
+          portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+          systemd.enable = true;
+          xwayland = {
+            enable = true;
+          };
+          package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       };
     };
   };
@@ -486,6 +487,7 @@
     };
     hypridle = {
       enable = true;
+      package = inputs.hypridle.packages.${pkgs.stdenv.hostPlatform.system}.hypridle;
       settings = {
         general = {
             lock_cmd = "pidof hyprlock || hyprlock";       # avoid starting multiple hyprlock instances.
@@ -523,6 +525,7 @@
   programs = {
     hyprlock = {
       enable = true;
+      package = inputs.hyprlock.packages.${pkgs.stdenv.hostPlatform.system}.hyprlock;
     };
     git = {
       enable = true;
