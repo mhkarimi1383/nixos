@@ -183,6 +183,8 @@
       swtpm
       procps
       pciutils
+      trippy
+      whois
 
       rustdesk
       anydesk
@@ -263,6 +265,7 @@
         icat = "kitten icat";
         diff = "kitten diff";
         curl = "curlie";
+        traceroute = "trip";
       };
       sessionVariables = {
         MANPAGER = "sh -c 'col -bx | bat -l man'";
