@@ -185,6 +185,7 @@
       pciutils
       trippy
       whois
+      pavucontrol
 
       rustdesk
       anydesk
@@ -265,7 +266,7 @@
         icat = "kitten icat";
         diff = "kitten diff";
         curl = "curlie";
-        traceroute = "trip";
+        traceroute = "sudo trip";
       };
       sessionVariables = {
         MANPAGER = "sh -c 'col -bx | bat -l man'";
