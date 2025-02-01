@@ -51,6 +51,7 @@
       kubernetes-helm
       krew
       (minikube.override { withQemu = true; libvirt = pkgs.libvirt; } )
+      # inputs.helmwave.helmwave
 
       polkit
       polkit_gnome
@@ -69,13 +70,12 @@
       inputs.hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper
       inputs.hypridle.packages.${pkgs.stdenv.hostPlatform.system}.hypridle
       fuzzel
-      firefox
       networkmanagerapplet
       brightnessctl
       playerctl
       clipse
-      # inputs.helmwave.helmwave
       catppuccin-cursors.mochaDark
+      brave
 
       nerd-fonts.inconsolata
       vazir-fonts
@@ -172,7 +172,6 @@
       psmisc
       gitmoji-cli
       unzip
-      geek-life
       nvtopPackages.full
       smartmontools
       remmina
@@ -394,7 +393,6 @@
     XDG_CURRENT_DESKTOP = "Hyprland";
     XDG_SESSION_TYPE = "wayland";
     XDG_SESSION_DESKTOP = "Hyprland";
-    MOZ_ENABLE_WAYLAND = "1";
     NIXOS_OZONE_WL = "1";
     T_QPA_PLATFORM = "wayland";
     GDK_BACKEND = "wayland";
