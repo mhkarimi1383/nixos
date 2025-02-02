@@ -7,6 +7,10 @@
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprpolkitagent = {
+      url = "github:hyprwm/hyprpolkitagent?submodules=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprpaper = {
       url = "github:hyprwm/hyprpaper?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";

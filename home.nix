@@ -54,7 +54,6 @@
       # inputs.helmwave.helmwave
 
       polkit
-      polkit_gnome
 
       vim
       (neovim.override {withNodeJs = true;})
@@ -69,6 +68,7 @@
       (hyprshot.override {hyprland = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland; })
       inputs.hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper
       inputs.hypridle.packages.${pkgs.stdenv.hostPlatform.system}.hypridle
+      inputs.hyprpolkitagent.packages.${pkgs.stdenv.hostPlatform.system}.hyprpolkitagent
       fuzzel
       networkmanagerapplet
       brightnessctl
@@ -438,23 +438,6 @@
               fi
               ''
             );
-          };
-        };
-        polkit-gnome-authentication-agent-1 = {
-          Unit = {
-            Description = "polkit-gnome-authentication-agent-1";
-            After = [ "graphical-session.target" ];
-            Wants = [ "graphical-session.target" ];
-          };
-          Install = {
-            WantedBy = [ "graphical-session.target" "default.target" ];
-          };
-          Service = {
-            Type = "simple";
-            ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-            Restart = "on-failure";
-            RestartSec = 1;
-            TimeoutStopSec = 10;
           };
         };
       };
