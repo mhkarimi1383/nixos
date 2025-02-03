@@ -188,6 +188,8 @@
 
       rustdesk
       anydesk
+
+      winbox4
     ];
   };
   programs = {
