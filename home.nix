@@ -140,6 +140,8 @@
       pnpm
       gitmux
       ruby
+      temurin-bin
+      adoptopenjdk-icedtea-web
 
       podman-desktop
       podman-compose
