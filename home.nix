@@ -141,6 +141,8 @@
       gitmux
       ruby
       temurin-bin
+      java-language-server
+      maven
       adoptopenjdk-icedtea-web
 
       podman-desktop
@@ -187,6 +189,7 @@
       trippy
       whois
       pavucontrol
+      wget
 
       rustdesk
       anydesk
@@ -272,7 +275,7 @@
         traceroute = "sudo trip";
       };
       sessionVariables = {
-        MANPAGER = "sh -c 'col -bx | bat -l man'";
+        MANPAGER = "bat -l man -p";
         EDITOR = "nvim";
         TYPEWRITTEN_SYMBOL = "λ ";
         TYPEWRITTEN_PROMPT_LAYOUT = "half_pure";
@@ -281,6 +284,7 @@
         HISTCONTROL = "ignoreboth";
         KIND_EXPERIMENTAL_PROVIDER = "podman";
         NODE_PATH = "/home/karimi/.npm-packages/lib/node_modules";
+        JDTLS_JVM_ARGS="-javaagent:$HOME/.local/share/java/lombok.jar";
       };
       oh-my-zsh = {
         enable = true;
