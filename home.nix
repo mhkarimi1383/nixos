@@ -74,7 +74,7 @@
       brightnessctl
       playerctl
       clipse
-      catppuccin-cursors.mochaDark
+      catppuccin-cursors.mochaLavender
       brave
 
       nerd-fonts.inconsolata
