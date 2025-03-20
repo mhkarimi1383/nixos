@@ -174,6 +174,7 @@
       podman-desktop
       podman-compose
       dive
+      docker-machine-kvm2
 
       cloudflare-warp
       nekoray
@@ -217,7 +218,7 @@
       pavucontrol
       wget
 
-      rustdesk
+      # rustdesk
       anydesk
 
       winbox4
@@ -339,6 +340,9 @@
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
+    ".minikube/bin/docker-machine-driver-kvm2" = {
+      source = "${pkgs.docker-machine-kvm2}/bin/docker-machine-driver-kvm2";
+    };
     ".config/hypr" = {
       source = ./hypr;
       recursive = true;
