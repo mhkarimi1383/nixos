@@ -77,7 +77,7 @@
       catppuccin-cursors.mochaLavender
       brave
 
-      nerd-fonts.inconsolata
+      maple-mono
       vazir-fonts
 
       (jetbrains.datagrip.override {
@@ -332,7 +332,7 @@
       defaultFonts = {
         serif = [ "Vazirmatn" ];
         sansSerif = [ "Vazirmatn" ];
-        monospace = [ "Inconsolata Nerd Font Mono" ];
+        monospace = [ "Maple Mono" ];
       };
     };
   };
