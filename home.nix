@@ -77,7 +77,7 @@
       catppuccin-cursors.mochaLavender
       brave
 
-      maple-mono
+      maple-mono-NF
       vazir-fonts
 
       (jetbrains.datagrip.override {
@@ -332,7 +332,7 @@
       defaultFonts = {
         serif = [ "Vazirmatn" ];
         sansSerif = [ "Vazirmatn" ];
-        monospace = [ "Maple Mono" ];
+        monospace = [ "Maple Mono NF" ];
       };
     };
   };
