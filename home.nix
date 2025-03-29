@@ -170,6 +170,7 @@
       java-language-server
       maven
       adoptopenjdk-icedtea-web
+      ruff-lsp
 
       podman-desktop
       podman-compose
