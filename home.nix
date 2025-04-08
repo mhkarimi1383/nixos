@@ -77,7 +77,7 @@
       catppuccin-cursors.mochaLavender
       brave
 
-      maple-mono-NF
+      maple-mono.NF
       vazir-fonts
 
       (jetbrains.datagrip.override {
@@ -219,9 +219,9 @@
       pavucontrol
       wget
 
-      # rustdesk
       anydesk
 
+      openfortivpn
       winbox4
     ];
   };
