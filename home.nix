@@ -187,6 +187,7 @@
       lsd
       btop
       curlie
+      posting
       ripgrep
       bat
       dogdns
@@ -220,7 +221,7 @@
       wget
 
       anydesk
-
+      planify
       openfortivpn
       winbox4
     ];
