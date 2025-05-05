@@ -313,7 +313,8 @@
         HISTCONTROL = "ignoreboth";
         KIND_EXPERIMENTAL_PROVIDER = "podman";
         NODE_PATH = "/home/karimi/.npm-packages/lib/node_modules";
-        JDTLS_JVM_ARGS="-javaagent:$HOME/.local/share/java/lombok.jar";
+        JDTLS_JVM_ARGS = "-javaagent:$HOME/.local/share/java/lombok.jar";
+        REGISTRY_AUTH_FILE = "/home/karimi/.podman-auth.json";
       };
       oh-my-zsh = {
         enable = true;
@@ -400,6 +401,9 @@
     };
     "~/.config/yazi/theme.toml" = {
       source = ./yazi/themes/mocha/catppuccin-mocha-lavender.toml;
+    };
+    "~/.config/cava/config" = {
+      source = ./cava.ini;
     };
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a

@@ -268,18 +268,23 @@
   hardware.graphics = {
     enable = true;
   };
-
+  services.pulseaudio = {
+    enable = true;
+    package = pkgs.pulseaudioFull;
+  };
+  hardware.enableAllFirmware = true;
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
     settings = {
       General = {
         Enable = "Source,Sink,Media,Socket";
+        Experimental = true;
     };
     };
   };
   services.pipewire = {
-    enable = true;
+    enable = false;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
@@ -293,10 +298,6 @@
         "bluez5.enable-hw-volume" = true;
         "bluez5.roles" = [ "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag" ];
     };
-  };
-  services.pulseaudio = {
-    enable = false;
-    package = pkgs.pulseaudioFull;
   };
 
   # Load nvidia driver for Xorg and Wayland
