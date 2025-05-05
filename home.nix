@@ -399,10 +399,10 @@
     ".gitmux.conf" = {
       source = ./tmux/gitmux.conf;
     };
-    "~/.config/yazi/theme.toml" = {
+    ".config/yazi/theme.toml" = {
       source = ./yazi/themes/mocha/catppuccin-mocha-lavender.toml;
     };
-    "~/.config/cava/config" = {
+    ".config/cava/config" = {
       source = ./cava.ini;
     };
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
