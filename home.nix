@@ -170,7 +170,8 @@
       java-language-server
       maven
       adoptopenjdk-icedtea-web
-      ruff-lsp
+      ruff
+      pre-commit
 
       podman-desktop
       podman-compose
@@ -224,6 +225,9 @@
       planify
       openfortivpn
       winbox4
+
+      thunderbird-latest
+      birdtray
     ];
   };
   programs = {
