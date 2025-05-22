@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, ... }:
+{ inputs, config, pkgs, lib, ... }:
 
 {
   nixpkgs.overlays = [inputs.nixpkgs-wayland.overlay];
@@ -257,7 +257,7 @@
       syntaxHighlighting.enable = true;
       autocd = true;
 
-      initExtraFirst = ''
+      initContent = lib.mkBefore ''
       source "$HOME/.local/share/zsh/custom/themes/typewritten/typewritten.zsh-theme"
       display_kube_context() {
         tw_kube_context="\u2388 | $(kubectl config view --minify --output json | jq -r '(."contexts"[0]."context"."user" + "@" + ."contexts"[0]."context"."cluster" + ":" + ."contexts"[0]."context"."namespace")' 2> /dev/null)"
@@ -265,10 +265,8 @@
           echo -n "($tw_kube_context)"
         fi
       }
-      '';
-      initExtra = ''
-        compdef kubecolor=kubectl
-        compdef k=kubectl
+      compdef kubecolor=kubectl
+      compdef k=kubectl
       '';
       shellAliases = {
         ll = "ls -l";
