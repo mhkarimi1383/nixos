@@ -182,6 +182,7 @@
       nekoray
 
       cava
+      pamixer
       yazi
       gimp
       jq

@@ -117,7 +117,7 @@
         karimi = {
         isNormalUser = true;
         description = "Muhammed Hussein Karimi";
-        extraGroups = [ "networkmanager" "wheel" "libvirtd" "disk" ];
+        extraGroups = [ "networkmanager" "wheel" "libvirtd" "disk" "audio" ];
         useDefaultShell = true;
         # packages = with pkgs; [];
       };
