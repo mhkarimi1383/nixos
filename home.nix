@@ -223,7 +223,6 @@
       wget
 
       anydesk
-      planify
       openfortivpn
       winbox4
 
