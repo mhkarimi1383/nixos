@@ -223,6 +223,7 @@
       wget
 
       anydesk
+      rustdesk
       openfortivpn
       winbox4
 
