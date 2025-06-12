@@ -76,6 +76,7 @@
       clipse
       catppuccin-cursors.mochaLavender
       brave
+      firefox
 
       maple-mono.NF
       vazir-fonts
