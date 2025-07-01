@@ -227,6 +227,7 @@
       rustdesk
       openfortivpn
       winbox4
+      fd
 
       thunderbird-latest
       birdtray
