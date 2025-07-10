@@ -41,7 +41,7 @@
     ];
     username = "karimi";
     homeDirectory = "/home/karimi";
-    stateVersion = "25.05";
+    stateVersion = "25.11";
     packages = with pkgs; [
       kind
       ansible
@@ -75,8 +75,8 @@
       playerctl
       clipse
       catppuccin-cursors.mochaLavender
-      brave
       firefox
+      inputs.zen-browser.packages."${system}".twilight
 
       maple-mono.NF
       vazir-fonts

@@ -1108,7 +1108,8 @@
         "hyprpolkitagent": "hyprpolkitagent",
         "nixpkgs": "nixpkgs",
         "nixpkgs-wayland": "nixpkgs-wayland",
-        "waybar": "waybar"
+        "waybar": "waybar",
+        "zen-browser": "zen-browser"
       }
     },
     "systems": {
@@ -1276,6 +1277,29 @@
       "original": {
         "owner": "hyprwm",
         "repo": "xdg-desktop-portal-hyprland",
+        "type": "github"
+      }
+    },
+    "zen-browser": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1751930356,
+        "narHash": "sha256-xiG5vY4KhrIfUGb/MyPXaDiatFJ0mQngook01X4VwHg=",
+        "owner": "0xc000022070",
+        "repo": "zen-browser-flake",
+        "rev": "06c1a125bfa2002e9d84ebf655271c6f06ab1f38",
+        "type": "github"
+      },
+      "original": {
+        "owner": "0xc000022070",
+        "repo": "zen-browser-flake",
         "type": "github"
       }
     }
