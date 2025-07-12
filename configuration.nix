@@ -93,6 +93,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.networkmanager.plugins = [pkgs.networkmanager-l2tp];
 
   # Set your time zone.
   time.timeZone = "Asia/Tehran";
