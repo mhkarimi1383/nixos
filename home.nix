@@ -54,6 +54,7 @@
       # inputs.helmwave.helmwave
 
       polkit
+      steam-run
 
       vim
       (neovim.override {withNodeJs = true;})
