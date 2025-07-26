@@ -93,7 +93,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.networkmanager.plugins = [pkgs.networkmanager-l2tp];
+  networking.networkmanager.plugins = [pkgs.networkmanager-l2tp pkgs.networkmanager-openvpn];
 
   # Set your time zone.
   time.timeZone = "Asia/Tehran";
