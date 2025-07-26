@@ -214,6 +214,7 @@
       remmina
       persepolis
       (qemu_full.override {cephSupport = false;})
+      gradle
       glxinfo
       usbutils
       swtpm
