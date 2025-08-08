@@ -5,11 +5,11 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.default
+  ];
   virtualisation = {
     containers = {
       enable = true;
@@ -37,6 +37,7 @@
   };
   # Bootloader.
   boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
     extraModulePackages = with config.boot.kernelPackages; [
       v4l2loopback
     ];
