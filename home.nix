@@ -3,12 +3,6 @@
 {
   nixpkgs.overlays = [
     inputs.nixpkgs-wayland.overlay
-    (final: prev: {
-      # https://github.com/NixOS/nixpkgs/issues/431528
-      sane-backends = prev.sane-backends.overrideAttrs (old: {
-        doInstallCheck = false; # skip installCheckPhase
-      });
-    })
   ];
   nixpkgs.config.allowUnfree = true;
   dconf = {
