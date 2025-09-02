@@ -136,6 +136,7 @@
       #   -javaagent:/home/karimi/ja-netfilter/ja-netfilter.jar=jetbrains
       #   '';
       # })
+      protols
       python3Full
       go
       cobra-cli
