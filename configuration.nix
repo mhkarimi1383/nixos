@@ -10,6 +10,9 @@
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
   ];
+  services.fprintd.enable = true;
+  services.fprintd.tod.enable = true;
+  services.fprintd.tod.driver = pkgs.libfprint-2-tod1-elan;
   virtualisation = {
     containers = {
       enable = true;
@@ -309,8 +312,9 @@
     prime = {
       offload = {
         enable = true;
-        enableOffloadCmd = false;
+        enableOffloadCmd = true;
       };
+      sync.enable = false;
       intelBusId = "PCI:0:2:0";
       nvidiaBusId = "PCI:1:0:0";
     };

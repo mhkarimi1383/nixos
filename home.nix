@@ -13,6 +13,25 @@
       };
     };
   };
+  gtk.enable = true;
+  gtk.iconTheme.package = pkgs.papirus-icon-theme;
+  gtk.iconTheme.name = "Papirus-Dark";
+  gtk.gtk2.iconTheme.package = pkgs.papirus-icon-theme;
+  gtk.gtk2.iconTheme.name = "Papirus-Dark";
+  gtk.gtk2.extraConfig = ''
+    gtk-application-prefer-dark-theme=1
+  '';
+  gtk.gtk3.iconTheme.package = pkgs.papirus-icon-theme;
+  gtk.gtk3.iconTheme.name = "Papirus-Dark";
+  gtk.gtk3.extraConfig = {
+    gtk-application-prefer-dark-theme = 1;
+  };
+  gtk.gtk4.enable = true;
+  gtk.gtk4.iconTheme.package = pkgs.papirus-icon-theme;
+  gtk.gtk4.iconTheme.name = "Papirus-Dark";
+  gtk.gtk4.extraConfig = {
+    gtk-application-prefer-dark-theme = 1;
+  };
   xdg = {
     portal = {
       enable = true;
@@ -46,8 +65,8 @@
     stateVersion = "25.11";
     packages = with pkgs; [
       kind
-      ansible
-      ansible-lint
+      # ansible
+      # ansible-lint
       kubectl
       kubecolor
       kubernetes-helm
@@ -137,7 +156,7 @@
       #   '';
       # })
       protols
-      python3Full
+      python3
       go
       cobra-cli
       gnumake
@@ -157,7 +176,8 @@
       pyright
       gcc
       tree-sitter
-      nodejs_22
+      nodejs_24
+      bun
       lua-language-server
       nginx-language-server
       python3Packages.python-lsp-server
