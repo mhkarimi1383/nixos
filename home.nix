@@ -68,8 +68,8 @@
     stateVersion = "25.11";
     packages = with pkgs; [
       kind
-      # ansible
-      # ansible-lint
+      ansible
+      ansible-lint
       kubectl
       kubecolor
       kubernetes-helm
