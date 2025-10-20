@@ -2,7 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -10,6 +15,12 @@
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
   ];
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+  };
   services.fprintd.enable = true;
   services.fprintd.tod.enable = true;
   services.fprintd.tod.driver = pkgs.libfprint-2-tod1-elan;
@@ -26,10 +37,6 @@
         swtpm = {
           enable = true;
         };
-        ovmf = {
-          enable = true;
-          packages = [ pkgs.OVMFFull.fd ];
-        };
       };
     };
     podman = {
@@ -40,13 +47,13 @@
   };
   # Bootloader.
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
-    extraModulePackages = with config.boot.kernelPackages; [
-      v4l2loopback
-    ];
-    extraModprobeConfig = ''
-      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
-    '';
+    kernelPackages = pkgs.linuxPackages_testing;
+    # extraModulePackages = with config.boot.kernelPackages; [
+    #   v4l2loopback
+    # ];
+    # extraModprobeConfig = ''
+    #   options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+    # '';
     plymouth = {
       enable = true;
       theme = "catppuccin-mocha";
@@ -97,7 +104,10 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.networkmanager.plugins = [pkgs.networkmanager-l2tp pkgs.networkmanager-openvpn];
+  networking.networkmanager.plugins = [
+    pkgs.networkmanager-l2tp
+    pkgs.networkmanager-openvpn
+  ];
 
   # Set your time zone.
   time.timeZone = "Asia/Tehran";
@@ -112,6 +122,10 @@
     polkit = {
       enable = true;
     };
+    sudo-rs = {
+      enable = true;
+    };
+    sudo.enable = false;
   };
 
   powerManagement.enable = true;
@@ -119,10 +133,16 @@
   users = {
     defaultUserShell = pkgs.zsh;
     users = {
-        karimi = {
+      karimi = {
         isNormalUser = true;
-        description = "Muhammed Hussein Karimi";
-        extraGroups = [ "networkmanager" "wheel" "libvirtd" "disk" "audio" ];
+        description = "Muhammed Hussain Karimi";
+        extraGroups = [
+          "networkmanager"
+          "wheel"
+          "libvirtd"
+          "disk"
+          "audio"
+        ];
         useDefaultShell = true;
         # packages = with pkgs; [];
       };
@@ -163,8 +183,14 @@
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      trusted-users = [ "root" "karimi" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      trusted-users = [
+        "root"
+        "karimi"
+      ];
       sandbox = true;
       auto-optimise-store = true;
       cores = 5;
@@ -222,8 +248,7 @@
     thermald.enable = true;
     upower.enable = true;
     xserver = {
-      videoDrivers =
-      [
+      videoDrivers = [
         "modesetting"
         "fbdev"
         "nvidia"
@@ -242,8 +267,17 @@
   networking = {
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 80 443 8080 8000 8443 6443 3000 5000 ];
-      allowedUDPPorts = [];
+      allowedTCPPorts = [
+        80
+        443
+        8080
+        8000
+        8443
+        6443
+        3000
+        5000
+      ];
+      allowedUDPPorts = [ ];
     };
   };
 
@@ -251,22 +285,26 @@
     hyprland = {
       enable = true;
       package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-      portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+      portalPackage =
+        inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     };
   };
 
   systemd.services = {
-      battery-charge-threshold = {
-        description = "Set the battery charge threshold";
-        after = ["multi-user.target"];
-        startLimitBurst = 0;
-        serviceConfig = {
-          Type = "oneshot";
-          Restart = "on-failure";
-          ExecStart = "/run/current-system/sw/bin/bash -c 'echo 80 > /sys/class/power_supply/BAT0/charge_control_end_threshold'";
-        };
-        wantedBy = ["graphical-session.target" "default.target"];
+    battery-charge-threshold = {
+      description = "Set the battery charge threshold";
+      after = [ "multi-user.target" ];
+      startLimitBurst = 0;
+      serviceConfig = {
+        Type = "oneshot";
+        Restart = "on-failure";
+        ExecStart = "/run/current-system/sw/bin/bash -c 'echo 80 > /sys/class/power_supply/BAT0/charge_control_end_threshold'";
       };
+      wantedBy = [
+        "graphical-session.target"
+        "default.target"
+      ];
+    };
   };
 
   system.stateVersion = "25.11";
@@ -285,7 +323,7 @@
       General = {
         Enable = "Source,Sink,Media,Socket";
         Experimental = true;
-    };
+      };
     };
   };
   services.pipewire = {
@@ -298,10 +336,15 @@
   };
   services.pipewire.wireplumber.extraConfig.bluetoothEnhancements = {
     "monitor.bluez.properties" = {
-        "bluez5.enable-sbc-xq" = true;
-        "bluez5.enable-msbc" = true;
-        "bluez5.enable-hw-volume" = true;
-        "bluez5.roles" = [ "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag" ];
+      "bluez5.enable-sbc-xq" = true;
+      "bluez5.enable-msbc" = true;
+      "bluez5.enable-hw-volume" = true;
+      "bluez5.roles" = [
+        "hsp_hs"
+        "hsp_ag"
+        "hfp_hf"
+        "hfp_ag"
+      ];
     };
   };
 
@@ -324,7 +367,7 @@
 
     # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
     # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
+    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
     # of just the bare essentials.
     powerManagement.enable = true;
 
@@ -334,9 +377,9 @@
 
     # Use the NVidia open source kernel module (not to be confused with the
     # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+    # Support is limited to the Turing and later architectures. Full list of
+    # supported GPUs is at:
+    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
     # Only available from driver 515.43.04+
     # Currently alpha-quality/buggy, so false is currently the recommended setting.
     open = false;

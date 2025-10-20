@@ -1,4 +1,10 @@
-{ inputs, config, pkgs, lib, ... }:
+{
+  inputs,
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   nixpkgs.overlays = [
@@ -11,8 +17,8 @@
         color-scheme = "prefer-dark";
       };
       "org/virt-manager/virt-manager/connections" = {
-        autoconnect = ["qemu:///system"];
-        uris = ["qemu:///system"];
+        autoconnect = [ "qemu:///system" ];
+        uris = [ "qemu:///system" ];
       };
     };
   };
@@ -74,15 +80,19 @@
       kubecolor
       kubernetes-helm
       krew
-      (minikube.override { withQemu = true; libvirt = pkgs.libvirt; } )
+      (minikube.override {
+        withQemu = true;
+        libvirt = pkgs.libvirt;
+      })
       # inputs.helmwave.helmwave
 
       polkit
       steam-run
 
       vim
-      (neovim.override {withNodeJs = true;})
+      (neovim.override { withNodeJs = true; })
       tmux
+      shfmt
 
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
       inputs.waybar.packages.${system}.waybar
@@ -90,7 +100,9 @@
       inputs.nixpkgs-wayland.packages.${system}.wlogout
       inputs.nixpkgs-wayland.packages.${system}.wl-clipboard
       inputs.nixpkgs-wayland.packages.${system}.wlr-randr
-      (hyprshot.override {hyprland = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland; })
+      (hyprshot.override {
+        hyprland = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      })
       inputs.hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper
       inputs.hypridle.packages.${pkgs.stdenv.hostPlatform.system}.hypridle
       inputs.hyprpolkitagent.packages.${pkgs.stdenv.hostPlatform.system}.hyprpolkitagent
@@ -101,6 +113,7 @@
       clipse
       catppuccin-cursors.mochaLavender
       firefox
+      terraform-lsp
       inputs.zen-browser.packages."${system}".twilight
 
       maple-mono.NF
@@ -108,28 +121,28 @@
 
       (jetbrains.datagrip.override {
         vmopts = ''
-        -Xms512m
-        -Xmx8192m
-        -XX:ReservedCodeCacheSize=512m
-        -XX:+IgnoreUnrecognizedVMOptions
-        -XX:+UseG1GC
-        -XX:SoftRefLRUPolicyMSPerMB=50
-        -XX:CICompilerCount=2
-        -XX:+HeapDumpOnOutOfMemoryError
-        -XX:-OmitStackTraceInFastThrow
-        -ea
-        -Dsun.io.useCanonCaches=false
-        -Djdk.http.auth.tunneling.disabledSchemes=""
-        -Djdk.attach.allowAttachSelf=true
-        -Djdk.module.illegalAccess.silent=true
-        -Dkotlinx.coroutines.debug=off
-        -XX:ErrorFile=$USER_HOME/java_error_in_idea_%p.log
-        -XX:HeapDumpPath=$USER_HOME/java_error_in_idea.hprof
+          -Xms512m
+          -Xmx8192m
+          -XX:ReservedCodeCacheSize=512m
+          -XX:+IgnoreUnrecognizedVMOptions
+          -XX:+UseG1GC
+          -XX:SoftRefLRUPolicyMSPerMB=50
+          -XX:CICompilerCount=2
+          -XX:+HeapDumpOnOutOfMemoryError
+          -XX:-OmitStackTraceInFastThrow
+          -ea
+          -Dsun.io.useCanonCaches=false
+          -Djdk.http.auth.tunneling.disabledSchemes=""
+          -Djdk.attach.allowAttachSelf=true
+          -Djdk.module.illegalAccess.silent=true
+          -Dkotlinx.coroutines.debug=off
+          -XX:ErrorFile=$USER_HOME/java_error_in_idea_%p.log
+          -XX:HeapDumpPath=$USER_HOME/java_error_in_idea.hprof
 
-        --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
-        --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
+          --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
+          --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
 
-        -javaagent:/home/karimi/ja-netfilter/ja-netfilter.jar=jetbrains
+          -javaagent:/home/karimi/ja-netfilter/ja-netfilter.jar=jetbrains
         '';
       })
       # (jetbrains.idea-ultimate.override {
@@ -185,7 +198,10 @@
       nginx-language-server
       python3Packages.python-lsp-server
       python3Packages.debugpy
-      (luajit.withPackages(luajitPackages: [luajitPackages.magick luajitPackages.luarocks]))
+      (luajit.withPackages (luajitPackages: [
+        luajitPackages.magick
+        luajitPackages.luarocks
+      ]))
       devenv
       nil
       nixfmt-rfc-style
@@ -239,7 +255,11 @@
       smartmontools
       remmina
       persepolis
-      (qemu_full.override {cephSupport = false; glusterfsSupport=false; xenSupport=false;})
+      (qemu_full.override {
+        cephSupport = false;
+        glusterfsSupport = false;
+        xenSupport = false;
+      })
       gradle
       glxinfo
       usbutils
@@ -256,9 +276,9 @@
       openfortivpn
       winbox4
       fd
+      pfetch-rs
 
-      thunderbird-latest
-      birdtray
+      hyprland-per-window-layout
     ];
   };
   programs = {
@@ -285,19 +305,30 @@
       enable = true;
       enableCompletion = true;
       autosuggestion.enable = true;
+      autosuggestion.strategy = [
+        "history"
+        "completion"
+      ];
       syntaxHighlighting.enable = true;
+      syntaxHighlighting.highlighters = [
+        "brackets"
+        "main"
+        "cursor"
+        "root"
+      ];
       autocd = true;
 
       initContent = lib.mkBefore ''
-      source "$HOME/.local/share/zsh/custom/themes/typewritten/typewritten.zsh-theme"
-      display_kube_context() {
-        tw_kube_context="\u2388 | $(kubectl config view --minify --output json | jq -r '(."contexts"[0]."context"."user" + "@" + ."contexts"[0]."context"."cluster" + ":" + ."contexts"[0]."context"."namespace")' 2> /dev/null)"
-        if [[ $tw_kube_context != "" ]]; then
-          echo -n "($tw_kube_context)"
-        fi
-      }
-      compdef kubecolor=kubectl
-      compdef k=kubectl
+        source "$HOME/.local/share/zsh/custom/themes/typewritten/typewritten.zsh-theme"
+        display_kube_context() {
+          tw_kube_context="\u2388 | $(kubectl config view --minify --output json | jq -r '(."contexts"[0]."context"."user" + "@" + ."contexts"[0]."context"."cluster" + ":" + ."contexts"[0]."context"."namespace")' 2> /dev/null)"
+          if [[ $tw_kube_context != "" ]]; then
+            echo -n "($tw_kube_context)"
+          fi
+        }
+        compdef kubecolor=kubectl
+        compdef k=kubectl
+        pfetch
       '';
       shellAliases = {
         ll = "ls -l";
@@ -341,7 +372,7 @@
         EDITOR = "nvim";
         TYPEWRITTEN_SYMBOL = "λ ";
         TYPEWRITTEN_PROMPT_LAYOUT = "half_pure";
-        TYPEWRITTEN_RELATIVE_PATH = "home";
+        TYPEWRITTEN_RELATIVE_PATH = "adaptive";
         TYPEWRITTEN_LEFT_PROMPT_PREFIX_FUNCTION = "display_kube_context";
         HISTCONTROL = "ignoreboth";
         KIND_EXPERIMENTAL_PROVIDER = "podman";
@@ -351,10 +382,19 @@
       };
       oh-my-zsh = {
         enable = true;
-        plugins = [ "git" "extract" "timer" "fzf" ];
+        plugins = [
+          "git"
+          "extract"
+          "timer"
+          "fzf"
+        ];
       };
       history = {
         size = 10000;
+        extended = true;
+        ignoreDups = true;
+        share = true;
+        saveNoDups = true;
         path = "${config.xdg.dataHome}/zsh/history";
         ignorePatterns = [
           "&:[bf]g:c:clear:history:exit:q:pwd:* --help"
@@ -498,21 +538,21 @@
             TimeoutStopSec = 10;
             ExecStart = toString (
               pkgs.writeShellScript "battery-warning-script" ''
-              set -eu
-              STATUS=$(cat /sys/class/power_supply/BAT0/status)
-              CURRENT_CAPACITY=$(cat /sys/class/power_supply/BAT0/capacity)
-              if [ "$STATUS" == "Discharging" ]; then
-                if [ "$CURRENT_CAPACITY" -gt 22 ] && [ "$CURRENT_CAPACITY" -lt 26 ]; then
-                  dunstify -a system -t 9000 -r 9990 -u normal "Battery Running Low" "$CURRENT_CAPACITY% Remaining"
+                set -eu
+                STATUS=$(cat /sys/class/power_supply/BAT0/status)
+                CURRENT_CAPACITY=$(cat /sys/class/power_supply/BAT0/capacity)
+                if [ "$STATUS" == "Discharging" ]; then
+                  if [ "$CURRENT_CAPACITY" -gt 22 ] && [ "$CURRENT_CAPACITY" -lt 26 ]; then
+                    dunstify -a system -t 9000 -r 9990 -u normal "Battery Running Low" "$CURRENT_CAPACITY% Remaining"
 
-                elif [ "$CURRENT_CAPACITY" -gt 12 ] && [ "$CURRENT_CAPACITY" -lt 16 ]; then
-                  dunstify -a system -t 9000 -r 9990 -u critical "Low Battery: $CURRENT_CAPACITY%" "Connect charger\nWill Hibernate soon"
+                  elif [ "$CURRENT_CAPACITY" -gt 12 ] && [ "$CURRENT_CAPACITY" -lt 16 ]; then
+                    dunstify -a system -t 9000 -r 9990 -u critical "Low Battery: $CURRENT_CAPACITY%" "Connect charger\nWill Hibernate soon"
 
 
-                elif [ "$CURRENT_CAPACITY" -lt 11 ]; then
-                  dunstify -a system -t 0 -r 9990 -u critical "Battery Critically Low" "$CURRENT_CAPACITY% Remaining."
+                  elif [ "$CURRENT_CAPACITY" -lt 11 ]; then
+                    dunstify -a system -t 0 -r 9990 -u critical "Battery Critically Low" "$CURRENT_CAPACITY% Remaining."
+                  fi
                 fi
-              fi
               ''
             );
           };
@@ -521,18 +561,18 @@
     };
   };
 
-
   wayland = {
     windowManager = {
-        hyprland = {
+      hyprland = {
+        enable = true;
+        extraConfig = (builtins.readFile hypr/hyprland.conf);
+        portalPackage =
+          inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+        systemd.enable = true;
+        xwayland = {
           enable = true;
-          extraConfig = (builtins.readFile hypr/hyprland.conf);
-          portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-          systemd.enable = true;
-          xwayland = {
-            enable = true;
-          };
-          package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+        };
+        package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       };
     };
   };
@@ -545,42 +585,43 @@
       settings = {
         preload = "~/.config/hypr/assets/dark-cat-rosewater.png";
         wallpaper = ",~/.config/hypr/assets/dark-cat-rosewater.png";
-        };
+      };
     };
     hypridle = {
       enable = true;
       package = inputs.hypridle.packages.${pkgs.stdenv.hostPlatform.system}.hypridle;
       settings = {
         general = {
-            lock_cmd = "pidof hyprlock || hyprlock";       # avoid starting multiple hyprlock instances.
-            before_sleep_cmd = "loginctl lock-session";    # lock before suspend.
-            after_sleep_cmd = "hyprctl dispatch dpms on";  # to avoid having to press a key twice to turn on the display.
+          lock_cmd = "pidof hyprlock || hyprlock"; # avoid starting multiple hyprlock instances.
+          before_sleep_cmd = "loginctl lock-session"; # lock before suspend.
+          after_sleep_cmd = "hyprctl dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
         };
 
         listener = [
-        {
-            timeout = 150;                                # 2.5min.
-            on-timeout = "brightnessctl -s set 10";         # set monitor backlight to minimum, avoid 0 on OLED monitor.
-            on-resume = "brightnessctl -r";                 # monitor backlight restore.
-        }
+          {
+            timeout = 150; # 2.5min.
+            on-timeout = "brightnessctl -s set 10"; # set monitor backlight to minimum, avoid 0 on OLED monitor.
+            on-resume = "brightnessctl -r"; # monitor backlight restore.
+          }
 
-        # turn off keyboard backlight, comment out this section if you dont have a keyboard backlight.
-        {
-            timeout = 150;                                          # 2.5min.
+          # turn off keyboard backlight, comment out this section if you dont have a keyboard backlight.
+          {
+            timeout = 150; # 2.5min.
             on-timeout = "brightnessctl -sd rgb:kbd_backlight set 0"; # turn off keyboard backlight.
-            on-resume = "brightnessctl -rd rgb:kbd_backlight";        # turn on keyboard backlight.
-        }
+            on-resume = "brightnessctl -rd rgb:kbd_backlight"; # turn on keyboard backlight.
+          }
 
-        {
-            timeout = 300;                                 # 5min
-            on-timeout = "loginctl lock-session";            # lock screen when timeout has passed
-        }
+          {
+            timeout = 300; # 5min
+            on-timeout = "loginctl lock-session"; # lock screen when timeout has passed
+          }
 
-        {
-            timeout = 330;                                 # 5.5min
-            on-timeout = "hyprctl dispatch dpms off";        # screen off when timeout has passed
-            on-resume = "hyprctl dispatch dpms on";          # screen on when activity is detected after timeout has fired.
-        }];
+          {
+            timeout = 330; # 5.5min
+            on-timeout = "hyprctl dispatch dpms off"; # screen off when timeout has passed
+            on-resume = "hyprctl dispatch dpms on"; # screen on when activity is detected after timeout has fired.
+          }
+        ];
       };
     };
   };
@@ -591,9 +632,11 @@
     };
     git = {
       enable = true;
-      userName = "Muhammed Hussein Karimi";
-      userEmail = "info@karimi.dev";
-      extraConfig = {
+      settings = {
+        user = {
+          email = "info@karimi.dev";
+          name = "Muhammed Hussain Karimi";
+        };
         safe.directory = "/etc/*";
         color = {
           ui = "auto";
@@ -646,7 +689,7 @@
       enable = true;
     };
     home-manager = {
-     enable = true;
+      enable = true;
     };
   };
 }
