@@ -328,6 +328,7 @@
         }
         compdef kubecolor=kubectl
         compdef k=kubectl
+        source ~/.local/share/zsh/custom/catppuccin-zsh-syntax-highlighting/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh
         pfetch
       '';
       shellAliases = {
@@ -418,6 +419,10 @@
   home.file = {
     ".minikube/bin/docker-machine-driver-kvm2" = {
       source = "${pkgs.docker-machine-kvm2}/bin/docker-machine-driver-kvm2";
+    };
+    ".local/share/zsh/custom/catppuccin-zsh-syntax-highlighting" = {
+      source = ./zsh-syntax-highlighting;
+      recursive = true;
     };
     ".config/hypr" = {
       source = ./hypr;
