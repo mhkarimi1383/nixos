@@ -279,6 +279,9 @@
       pfetch-rs
 
       hyprland-per-window-layout
+      # wineWowPackages.staging
+      wineWowPackages.waylandFull
+      samba
     ];
   };
   programs = {
@@ -320,6 +323,7 @@
 
       initContent = lib.mkBefore ''
         source "$HOME/.local/share/zsh/custom/themes/typewritten/typewritten.zsh-theme"
+        source "$HOME/.local/share/zsh/custom/catppuccin-zsh-syntax-highlighting/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh"
         display_kube_context() {
           tw_kube_context="\u2388 | $(kubectl config view --minify --output json | jq -r '(."contexts"[0]."context"."user" + "@" + ."contexts"[0]."context"."cluster" + ":" + ."contexts"[0]."context"."namespace")' 2> /dev/null)"
           if [[ $tw_kube_context != "" ]]; then
@@ -328,7 +332,6 @@
         }
         compdef kubecolor=kubectl
         compdef k=kubectl
-        source ~/.local/share/zsh/custom/catppuccin-zsh-syntax-highlighting/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh
         pfetch
       '';
       shellAliases = {
