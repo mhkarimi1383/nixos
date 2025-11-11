@@ -19,6 +19,10 @@
       url = "github:hyprwm/hypridle?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprlauncher = {
+      url = "github:hyprwm/hyprlauncher?submodules=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprlock = {
       url = "github:hyprwm/hyprlock?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";

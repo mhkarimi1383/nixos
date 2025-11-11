@@ -105,6 +105,7 @@
       })
       inputs.hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper
       inputs.hypridle.packages.${pkgs.stdenv.hostPlatform.system}.hypridle
+      inputs.hyprlauncher.packages.${pkgs.stdenv.hostPlatform.system}.hyprlauncher
       inputs.hyprpolkitagent.packages.${pkgs.stdenv.hostPlatform.system}.hyprpolkitagent
       fuzzel
       networkmanagerapplet
@@ -261,7 +262,7 @@
         xenSupport = false;
       })
       gradle
-      glxinfo
+      mesa-demos
       usbutils
       swtpm
       procps
@@ -391,6 +392,10 @@
           "extract"
           "timer"
           "fzf"
+          "command-not-found"
+          "sudo"
+          "terraform"
+          "tldr"
         ];
       };
       history = {

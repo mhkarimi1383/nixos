@@ -15,6 +15,13 @@
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
   ];
+  services.supergfxd.enable = true;
+  services = {
+    asusd = {
+      enable = true;
+      enableUserService = true;
+    };
+  };
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
@@ -47,7 +54,7 @@
   };
   # Bootloader.
   boot = {
-    kernelPackages = pkgs.linuxPackages_6_16;
+    kernelPackages = pkgs.linuxPackages_xanmod_stable;
     extraModulePackages = with config.boot.kernelPackages; [
       v4l2loopback
     ];
@@ -67,6 +74,11 @@
     initrd.verbose = false;
     kernelParams = [
       "quiet"
+      "elevator=bfq"
+      "preempt=full"
+      "mitigations=off"
+      "nowatchdog"
+      "threadirqs"
       "splash"
       "boot.shell_on_fail"
       "loglevel=3"
@@ -104,9 +116,9 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.networkmanager.plugins = [
-    pkgs.networkmanager-l2tp
-    pkgs.networkmanager-openvpn
+  networking.networkmanager.plugins = with pkgs; [
+    networkmanager-l2tp
+    networkmanager-openvpn
   ];
 
   # Set your time zone.
@@ -129,6 +141,7 @@
   };
 
   powerManagement.enable = true;
+  powerManagement.cpuFreqGovernor = "performance";
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users = {
     defaultUserShell = pkgs.zsh;
@@ -267,6 +280,7 @@
   networking = {
     firewall = {
       enable = true;
+      allowPing = true;
       allowedTCPPorts = [
         80
         443
