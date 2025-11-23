@@ -95,11 +95,11 @@
       shfmt
 
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
-      inputs.waybar.packages.${system}.waybar
-      inputs.nixpkgs-wayland.packages.${system}.dunst
-      inputs.nixpkgs-wayland.packages.${system}.wlogout
-      inputs.nixpkgs-wayland.packages.${system}.wl-clipboard
-      inputs.nixpkgs-wayland.packages.${system}.wlr-randr
+      inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.waybar
+      inputs.nixpkgs-wayland.packages.${pkgs.stdenv.hostPlatform.system}.dunst
+      inputs.nixpkgs-wayland.packages.${pkgs.stdenv.hostPlatform.system}.wlogout
+      inputs.nixpkgs-wayland.packages.${pkgs.stdenv.hostPlatform.system}.wl-clipboard
+      inputs.nixpkgs-wayland.packages.${pkgs.stdenv.hostPlatform.system}.wlr-randr
       (hyprshot.override {
         hyprland = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       })
@@ -115,7 +115,7 @@
       catppuccin-cursors.mochaLavender
       firefox
       terraform-lsp
-      inputs.zen-browser.packages."${system}".twilight
+      inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".twilight
 
       maple-mono.NF
       vazir-fonts
