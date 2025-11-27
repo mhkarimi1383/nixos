@@ -224,7 +224,7 @@
       docker-machine-kvm2
 
       cloudflare-warp
-      nekoray
+      throne
 
       cava
       pamixer
@@ -425,6 +425,9 @@
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
+    ".config/clipse/config.json" = {
+      source = ./clipse.json;
+    };
     ".minikube/bin/docker-machine-driver-kvm2" = {
       source = "${pkgs.docker-machine-kvm2}/bin/docker-machine-driver-kvm2";
     };
