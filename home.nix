@@ -120,6 +120,8 @@
       maple-mono.NF
       vazir-fonts
 
+      bruno
+
       (jetbrains.datagrip.override {
         vmopts = ''
           -Xms512m
