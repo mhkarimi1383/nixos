@@ -326,7 +326,7 @@
     enable = true;
   };
   services.pulseaudio = {
-    enable = true;
+    enable = false;
     package = pkgs.pulseaudioFull;
   };
   hardware.enableAllFirmware = true;
@@ -341,12 +341,11 @@
     };
   };
   services.pipewire = {
-    enable = false;
+    enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
   };
   services.pipewire.wireplumber.extraConfig.bluetoothEnhancements = {
     "monitor.bluez.properties" = {
@@ -358,6 +357,10 @@
         "hsp_ag"
         "hfp_hf"
         "hfp_ag"
+        "a2dp_sink"
+        "a2dp_source"
+        "bap_sink"
+        "bap_source"
       ];
     };
   };
