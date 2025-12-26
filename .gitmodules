@@ -1,36 +1,39 @@
 [submodule "hypr"]
 	path = hypr
-	url = git@github.com:mhkarimi1383/hypr.git
+	url = ../hypr.git
 [submodule "kitty"]
 	path = kitty
-	url = git@github.com:mhkarimi1383/kitty.git
+	url = ../kitty.git
 [submodule "nvim"]
 	path = nvim
-	url = git@github.com:mhkarimi1383/nvim.git
+	url = ../nvim.git
 [submodule "waybar"]
 	path = waybar
-	url = git@github.com:mhkarimi1383/waybar.git
+	url = ../waybar.git
 [submodule "fuzzel"]
 	path = fuzzel
-	url = git@github.com:mhkarimi1383/fuzzel.git
+	url = ../fuzzel.git
 [submodule "typewritten"]
 	path = typewritten
 	url = https://github.com/reobin/typewritten.git
 [submodule "dunst"]
 	path = dunst
-	url = git@github.com:mhkarimi1383/dunst.git
+	url = ../dunst.git
 [submodule "lsd"]
 	path = lsd
-	url = git@github.com:mhkarimi1383/lsd.git
+	url = ../lsd.git
 [submodule "bat"]
 	path = bat
-	url = git@github.com:mhkarimi1383/bat.git
+	url = ../bat.git
 [submodule "tmux"]
 	path = tmux
-	url = git@github.com:mhkarimi1383/tmux.git
+	url = ../tmux.git
 [submodule "yazi"]
 	path = yazi
 	url = https://github.com/catppuccin/yazi.git
 [submodule "zsh-syntax-highlighting"]
 	path = zsh-syntax-highlighting
 	url = https://github.com/catppuccin/zsh-syntax-highlighting.git
+[submodule "wlogout"]
+	path = wlogout
+	url = ../wlogout.git
