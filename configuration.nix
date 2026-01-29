@@ -14,12 +14,115 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
+    inputs.nix-gaming.nixosModules.pipewireLowLatency
   ];
-  services.supergfxd.enable = true;
   services = {
+    udisks2 = {
+      enable = true;
+    };
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      jack.enable = true;
+      lowLatency = {
+        enable = true;
+      };
+      wireplumber.extraConfig.bluetoothEnhancements = {
+        "monitor.bluez.properties" = {
+          "bluez5.enable-sbc-xq" = true;
+          "bluez5.enable-msbc" = true;
+          "bluez5.enable-hw-volume" = true;
+          "bluez5.roles" = [
+            "hsp_hs"
+            "hsp_ag"
+            "hfp_hf"
+            "hfp_ag"
+            "a2dp_sink"
+            "a2dp_source"
+            "bap_sink"
+            "bap_source"
+          ];
+        };
+      };
+    };
+    pulseaudio = {
+      enable = false;
+      package = pkgs.pulseaudioFull;
+    };
+    fprintd = {
+      enable = true;
+      tod = {
+        enable = true;
+        driver = pkgs.libfprint-2-tod1-elan;
+      };
+    };
+    supergfxd = {
+      enable = true;
+    };
     asusd = {
       enable = true;
       enableUserService = true;
+    };
+    spice-vdagentd = {
+      enable = true;
+    };
+    smartd = {
+      enable = true;
+      devices = [
+        {
+          device = "/dev/nvme0n1";
+        }
+      ];
+    };
+    blueman = {
+      enable = true;
+    };
+    thermald.enable = true;
+    upower.enable = true;
+    xserver = {
+      videoDrivers = [
+        "modesetting"
+        "fbdev"
+        "nvidia"
+      ];
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
+    };
+    displayManager = {
+      ly = {
+        enable = true;
+      };
+    };
+  };
+  networking = {
+    firewall = {
+      logReversePathDrops = true;
+      enable = true;
+      allowPing = true;
+      extraCommands = ''
+        ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --sport 6915 -j RETURN
+        ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --dport 6915 -j RETURN
+      '';
+      extraStopCommands = ''
+        ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --sport 6915 -j RETURN || true
+        ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --dport 6915 -j RETURN || true
+      '';
+      allowedTCPPorts = [
+        80
+        443
+        8080
+        8000
+        8443
+        6443
+        3000
+        5000
+        6915
+      ];
+      allowedUDPPorts = [ ];
     };
   };
   programs.steam = {
@@ -28,9 +131,6 @@
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
   };
-  services.fprintd.enable = true;
-  services.fprintd.tod.enable = true;
-  services.fprintd.tod.driver = pkgs.libfprint-2-tod1-elan;
   virtualisation = {
     containers = {
       enable = true;
@@ -58,6 +158,21 @@
     extraModulePackages = with config.boot.kernelPackages; [
       v4l2loopback
     ];
+    kernel = {
+      sysctl = {
+        "kernel.sched_cfs_bandwidth_slice_us" = 3000;
+        # This is required due to some games being unable to reuse their TCP ports
+        # if they're killed and restarted quickly - the default timeout is too large.
+        "net.ipv4.tcp_fin_timeout" = 5;
+        # Prevents intentional slowdowns in case games experience split locks
+        # This is valid for kernels v6.0+
+        "kernel.split_lock_mitigate" = 0;
+        # USE MAX_INT - MAPCOUNT_ELF_CORE_MARGIN.
+        # see comment in include/linux/mm.h in the kernel tree.
+        "vm.max_map_count" = 2147483642;
+      };
+    };
+    kernelModules = [ "snd_hda_intel" ];
     extraModprobeConfig = ''
       options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
     '';
@@ -98,7 +213,15 @@
         canTouchEfiVariables = true;
       };
       systemd-boot = {
+        enable = false;
+      };
+      grub = {
         enable = true;
+        efiSupport = true;
+        device = "nodev";
+      };
+      refind = {
+        enable = false;
       };
     };
   };
@@ -241,63 +364,11 @@
   #   enableSSHSupport = true;
   # };
 
-  # List services that you want to enable:
-
-  services = {
-    spice-vdagentd = {
-      enable = true;
-    };
-    smartd = {
-      enable = true;
-      devices = [
-        {
-          device = "/dev/nvme0n1";
-        }
-      ];
-    };
-    blueman = {
-      enable = true;
-    };
-    thermald.enable = true;
-    upower.enable = true;
-    xserver = {
-      videoDrivers = [
-        "modesetting"
-        "fbdev"
-        "nvidia"
-      ];
-      xkb = {
-        layout = "us";
-        variant = "";
-      };
-    };
-    displayManager = {
-      ly = {
-        enable = true;
-      };
-    };
-  };
-  networking = {
-    firewall = {
-      enable = true;
-      allowPing = true;
-      allowedTCPPorts = [
-        80
-        443
-        8080
-        8000
-        8443
-        6443
-        3000
-        5000
-      ];
-      allowedUDPPorts = [ ];
-    };
-  };
-
   programs = {
     hyprland = {
+      withUWSM = false;
       enable = true;
+      xwayland.enable = true;
       package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       portalPackage =
         inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
@@ -321,13 +392,9 @@
     };
   };
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
   hardware.graphics = {
     enable = true;
-  };
-  services.pulseaudio = {
-    enable = false;
-    package = pkgs.pulseaudioFull;
   };
   hardware.enableAllFirmware = true;
   hardware.bluetooth = {
@@ -338,30 +405,6 @@
         Enable = "Source,Sink,Media,Socket";
         Experimental = true;
       };
-    };
-  };
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-  };
-  services.pipewire.wireplumber.extraConfig.bluetoothEnhancements = {
-    "monitor.bluez.properties" = {
-      "bluez5.enable-sbc-xq" = true;
-      "bluez5.enable-msbc" = true;
-      "bluez5.enable-hw-volume" = true;
-      "bluez5.roles" = [
-        "hsp_hs"
-        "hsp_ag"
-        "hfp_hf"
-        "hfp_ag"
-        "a2dp_sink"
-        "a2dp_source"
-        "bap_sink"
-        "bap_source"
-      ];
     };
   };
 

@@ -5,7 +5,9 @@
   lib,
   ...
 }:
-
+let
+  hyprPlugins = inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system};
+in
 {
   nixpkgs.overlays = [
     inputs.nixpkgs-wayland.overlay
@@ -105,7 +107,6 @@
       })
       inputs.hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper
       inputs.hypridle.packages.${pkgs.stdenv.hostPlatform.system}.hypridle
-      inputs.hyprlauncher.packages.${pkgs.stdenv.hostPlatform.system}.hyprlauncher
       inputs.hyprpolkitagent.packages.${pkgs.stdenv.hostPlatform.system}.hyprpolkitagent
       fuzzel
       networkmanagerapplet
@@ -122,32 +123,32 @@
 
       bruno
 
-      (jetbrains.datagrip.override {
-        vmopts = ''
-          -Xms512m
-          -Xmx8192m
-          -XX:ReservedCodeCacheSize=512m
-          -XX:+IgnoreUnrecognizedVMOptions
-          -XX:+UseG1GC
-          -XX:SoftRefLRUPolicyMSPerMB=50
-          -XX:CICompilerCount=2
-          -XX:+HeapDumpOnOutOfMemoryError
-          -XX:-OmitStackTraceInFastThrow
-          -ea
-          -Dsun.io.useCanonCaches=false
-          -Djdk.http.auth.tunneling.disabledSchemes=""
-          -Djdk.attach.allowAttachSelf=true
-          -Djdk.module.illegalAccess.silent=true
-          -Dkotlinx.coroutines.debug=off
-          -XX:ErrorFile=$USER_HOME/java_error_in_idea_%p.log
-          -XX:HeapDumpPath=$USER_HOME/java_error_in_idea.hprof
+      # (jetbrains.datagrip.override {
+      #   vmopts = ''
+      #     -Xms512m
+      #     -Xmx8192m
+      #     -XX:ReservedCodeCacheSize=512m
+      #     -XX:+IgnoreUnrecognizedVMOptions
+      #     -XX:+UseG1GC
+      #     -XX:SoftRefLRUPolicyMSPerMB=50
+      #     -XX:CICompilerCount=2
+      #     -XX:+HeapDumpOnOutOfMemoryError
+      #     -XX:-OmitStackTraceInFastThrow
+      #     -ea
+      #     -Dsun.io.useCanonCaches=false
+      #     -Djdk.http.auth.tunneling.disabledSchemes=""
+      #     -Djdk.attach.allowAttachSelf=true
+      #     -Djdk.module.illegalAccess.silent=true
+      #     -Dkotlinx.coroutines.debug=off
+      #     -XX:ErrorFile=$USER_HOME/java_error_in_idea_%p.log
+      #     -XX:HeapDumpPath=$USER_HOME/java_error_in_idea.hprof
 
-          --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
-          --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
+      #     --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
+      #     --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
 
-          -javaagent:/home/karimi/ja-netfilter/ja-netfilter.jar=jetbrains
-        '';
-      })
+      #     -javaagent:/home/karimi/ja-netfilter/ja-netfilter.jar=jetbrains
+      #   '';
+      # })
       # (jetbrains.idea-ultimate.override {
       #   vmopts = ''
       #   -Xms512m
@@ -207,7 +208,7 @@
       ]))
       devenv
       nil
-      nixfmt-rfc-style
+      nixfmt
       php
       php.packages.composer
       pnpm
@@ -239,7 +240,7 @@
       posting
       ripgrep
       bat
-      dogdns
+      doggo
       prettyping
       viddy
       nerdfetch
@@ -285,6 +286,7 @@
       # wineWowPackages.staging
       wineWowPackages.waylandFull
       samba
+      vscode
     ];
   };
   programs = {
@@ -356,7 +358,7 @@
         less = "bat";
         oldless = "bat --plain";
         oldcat = "bat --plain --pager=never";
-        dig = "dog";
+        dig = "doggo";
         ping = "prettyping";
         kubectl = "kubecolor";
         k = "kubectl";
@@ -386,6 +388,14 @@
         NODE_PATH = "/home/karimi/.npm-packages/lib/node_modules";
         JDTLS_JVM_ARGS = "-javaagent:$HOME/.local/share/java/lombok.jar";
         REGISTRY_AUTH_FILE = "/home/karimi/.podman-auth.json";
+        HYPR_PLUGIN_DIR = pkgs.symlinkJoin {
+          name = "hyprland-plugins";
+          paths = [
+            # hyprPlugins.hyprtrails
+            hyprPlugins.hyprexpo
+          ];
+        };
+
       };
       oh-my-zsh = {
         enable = true;
@@ -598,6 +608,17 @@
     };
   };
   services = {
+    udiskie = {
+      enable = true;
+      settings = {
+        # workaround for
+        # https://github.com/nix-community/home-manager/issues/632
+        program_options = {
+          # replace with your favorite file manager
+          file_manager = "${pkgs.yazi}/bin/yazi";
+        };
+      };
+    };
     blueman-applet = {
       enable = true;
     };
