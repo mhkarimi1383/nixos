@@ -16,6 +16,8 @@
     inputs.home-manager.nixosModules.default
     inputs.nix-gaming.nixosModules.pipewireLowLatency
   ];
+  programs.throne.enable = true;
+  programs.throne.tunMode.enable = true;
   services = {
     udisks2 = {
       enable = true;
@@ -63,7 +65,6 @@
     };
     asusd = {
       enable = true;
-      enableUserService = true;
     };
     spice-vdagentd = {
       enable = true;
@@ -99,18 +100,11 @@
     };
   };
   networking = {
+    nftables.enable = true;
     firewall = {
       logReversePathDrops = true;
       enable = true;
       allowPing = true;
-      extraCommands = ''
-        ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --sport 6915 -j RETURN
-        ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --dport 6915 -j RETURN
-      '';
-      extraStopCommands = ''
-        ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --sport 6915 -j RETURN || true
-        ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --dport 6915 -j RETURN || true
-      '';
       allowedTCPPorts = [
         80
         443
@@ -154,7 +148,7 @@
   };
   # Bootloader.
   boot = {
-    kernelPackages = pkgs.linuxPackages_xanmod_stable;
+    kernelPackages = pkgs.linuxPackages_testing;
     extraModulePackages = with config.boot.kernelPackages; [
       v4l2loopback
     ];
@@ -203,10 +197,8 @@
       "vt.default_red=30,243,166,249,137,245,148,186,88,243,166,249,137,245,148,166"
       "vt.default_grn=30,139,227,226,180,194,226,194,91,139,227,226,180,194,226,173"
       "vt.default_blu=46,168,161,175,250,231,213,222,112,168,161,175,250,231,213,200"
+      "usbcore.autosuspend=-1" # Chinese Bluetooth HID Devices problem
     ];
-    # Hide the OS choice for bootloaders.
-    # It's still possible to open the bootloader list by pressing any key
-    # It will just not appear on screen unless a key is pressed
     loader.timeout = 10;
     loader = {
       efi = {
@@ -400,10 +392,24 @@
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
+    disabledPlugins = [ "input" ];
+    input = {
+      General = {
+        IdleTimeout = 0;
+        UserspaceHID = true;
+        ClassicBoundedOnly = false;
+      };
+    };
     settings = {
+      Policy = {
+        FastConnectable = true;
+        Privacy = false;
+        JustWorksPairing = "always";
+      };
       General = {
         Enable = "Source,Sink,Media,Socket";
         Experimental = true;
+        KernelExperimental = true;
       };
     };
   };

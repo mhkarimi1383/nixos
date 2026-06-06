@@ -32,14 +32,20 @@ in
   gtk.gtk2.extraConfig = ''
     gtk-application-prefer-dark-theme=1
   '';
+  gtk.gtk2.theme.name = "Catppuccin-GTK-Dark";
+  gtk.gtk2.theme.package = pkgs.magnetic-catppuccin-gtk;
   gtk.gtk3.iconTheme.package = pkgs.papirus-icon-theme;
   gtk.gtk3.iconTheme.name = "Papirus-Dark";
   gtk.gtk3.extraConfig = {
     gtk-application-prefer-dark-theme = 1;
   };
+  gtk.gtk3.theme.name = "Catppuccin-GTK-Dark";
+  gtk.gtk3.theme.package = pkgs.magnetic-catppuccin-gtk;
   gtk.gtk4.enable = true;
   gtk.gtk4.iconTheme.package = pkgs.papirus-icon-theme;
   gtk.gtk4.iconTheme.name = "Papirus-Dark";
+  gtk.gtk4.theme.name = "Catppuccin-GTK-Dark";
+  gtk.gtk4.theme.package = pkgs.magnetic-catppuccin-gtk;
   gtk.gtk4.extraConfig = {
     gtk-application-prefer-dark-theme = 1;
   };
@@ -114,15 +120,19 @@ in
       playerctl
       clipse
       catppuccin-cursors.mochaLavender
-      firefox
       terraform-lsp
       inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".twilight
 
       maple-mono.NF
       vazir-fonts
 
-      bruno
+      cloud-utils
 
+      bruno
+      dbeaver-bin
+      sshuttle
+      magnetic-catppuccin-gtk
+      vlc
       # (jetbrains.datagrip.override {
       #   vmopts = ''
       #     -Xms512m
@@ -149,32 +159,32 @@ in
       #     -javaagent:/home/karimi/ja-netfilter/ja-netfilter.jar=jetbrains
       #   '';
       # })
-      # (jetbrains.idea-ultimate.override {
-      #   vmopts = ''
-      #   -Xms512m
-      #   -Xmx8192m
-      #   -XX:ReservedCodeCacheSize=512m
-      #   -XX:+IgnoreUnrecognizedVMOptions
-      #   -XX:+UseG1GC
-      #   -XX:SoftRefLRUPolicyMSPerMB=50
-      #   -XX:CICompilerCount=2
-      #   -XX:+HeapDumpOnOutOfMemoryError
-      #   -XX:-OmitStackTraceInFastThrow
-      #   -ea
-      #   -Dsun.io.useCanonCaches=false
-      #   -Djdk.http.auth.tunneling.disabledSchemes=""
-      #   -Djdk.attach.allowAttachSelf=true
-      #   -Djdk.module.illegalAccess.silent=true
-      #   -Dkotlinx.coroutines.debug=off
-      #   -XX:ErrorFile=$USER_HOME/java_error_in_idea_%p.log
-      #   -XX:HeapDumpPath=$USER_HOME/java_error_in_idea.hprof
+      (jetbrains.idea.override {
+        vmopts = ''
+          -Xms512m
+          -Xmx8192m
+          -XX:ReservedCodeCacheSize=512m
+          -XX:+IgnoreUnrecognizedVMOptions
+          -XX:+UseG1GC
+          -XX:SoftRefLRUPolicyMSPerMB=50
+          -XX:CICompilerCount=2
+          -XX:+HeapDumpOnOutOfMemoryError
+          -XX:-OmitStackTraceInFastThrow
+          -ea
+          -Dsun.io.useCanonCaches=false
+          -Djdk.http.auth.tunneling.disabledSchemes=""
+          -Djdk.attach.allowAttachSelf=true
+          -Djdk.module.illegalAccess.silent=true
+          -Dkotlinx.coroutines.debug=off
+          -XX:ErrorFile=$USER_HOME/java_error_in_idea_%p.log
+          -XX:HeapDumpPath=$USER_HOME/java_error_in_idea.hprof
 
-      #   --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
-      #   --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
+          --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
+          --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
 
-      #   -javaagent:/home/karimi/ja-netfilter/ja-netfilter.jar=jetbrains
-      #   '';
-      # })
+          -javaagent:/home/karimi/ja-netfilter/ja-netfilter.jar=jetbrains
+        '';
+      })
       protols
       python3
       go
@@ -217,14 +227,12 @@ in
       temurin-bin
       java-language-server
       maven
-      adoptopenjdk-icedtea-web
       ruff
       pre-commit
 
       podman-desktop
       podman-compose
       dive
-      docker-machine-kvm2
 
       cloudflare-warp
       throne
@@ -284,7 +292,7 @@ in
 
       hyprland-per-window-layout
       # wineWowPackages.staging
-      wineWowPackages.waylandFull
+      wineWow64Packages.waylandFull
       samba
       vscode
     ];
@@ -388,14 +396,16 @@ in
         NODE_PATH = "/home/karimi/.npm-packages/lib/node_modules";
         JDTLS_JVM_ARGS = "-javaagent:$HOME/.local/share/java/lombok.jar";
         REGISTRY_AUTH_FILE = "/home/karimi/.podman-auth.json";
-        HYPR_PLUGIN_DIR = pkgs.symlinkJoin {
-          name = "hyprland-plugins";
-          paths = [
-            # hyprPlugins.hyprtrails
-            hyprPlugins.hyprexpo
-          ];
-        };
-
+        # HYPR_PLUGIN_DIR = pkgs.symlinkJoin {
+        #   name = "hyprland-plugins";
+        #   paths = [
+        #     # hyprPlugins.hyprtrails
+        #     hyprPlugins.hyprexpo
+        #   ];
+        # };
+        GTK_THEME = "Catppuccin-GTK-Dark";
+        XDG_PICTURES_DIR = "/home/karimi/Pictures";
+        HYPRSHOT_DIR = "/home/karimi/Pictures/Screenshots";
       };
       oh-my-zsh = {
         enable = true;
@@ -439,9 +449,6 @@ in
   home.file = {
     ".config/clipse/config.json" = {
       source = ./clipse.json;
-    };
-    ".minikube/bin/docker-machine-driver-kvm2" = {
-      source = "${pkgs.docker-machine-kvm2}/bin/docker-machine-driver-kvm2";
     };
     ".local/share/zsh/custom/catppuccin-zsh-syntax-highlighting" = {
       source = ./zsh-syntax-highlighting;
