@@ -116,7 +116,19 @@
         5000
         6915
       ];
+      allowedTCPPortRanges = [
+        {
+          from = 1714;
+          to = 1764;
+        }
+      ];
       allowedUDPPorts = [ ];
+      allowedUDPPortRanges = [
+        {
+          from = 1714;
+          to = 1764;
+        }
+      ];
     };
   };
   programs.steam = {
@@ -151,6 +163,7 @@
     kernelPackages = pkgs.linuxPackages_testing;
     extraModulePackages = with config.boot.kernelPackages; [
       v4l2loopback
+      xpadneo
     ];
     kernel = {
       sysctl = {
@@ -166,7 +179,12 @@
         "vm.max_map_count" = 2147483642;
       };
     };
-    kernelModules = [ "snd_hda_intel" ];
+    kernelModules = [
+      "snd_hda_intel"
+      "usbhid"
+      "joydev"
+      "xpad"
+    ];
     extraModprobeConfig = ''
       options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
     '';
@@ -328,6 +346,7 @@
         "https://nix-gaming.cachix.org"
         "https://cache.nixos.org"
         "https://nixpkgs-wayland.cachix.org"
+        "https://zed.cachix.org"
       ];
       trusted-public-keys = [
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
@@ -336,6 +355,7 @@
         "hydra.nixos.org-1:CNHJZBh9K4tP3EKF6FkkgeVYsS3ohTl+oS0Qa8bezVs="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+        "zed.cachix.org-1:/pHQ6dpMsAZk2DiP4WCL0p9YDNKWj2Q5FL20bNmw1cU="
       ];
 
     };
@@ -384,7 +404,7 @@
     };
   };
 
-  system.stateVersion = "26.05";
+  system.stateVersion = "26.11";
   hardware.graphics = {
     enable = true;
   };
@@ -455,6 +475,6 @@
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    package = config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
   };
 }

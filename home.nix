@@ -12,6 +12,76 @@ in
   nixpkgs.overlays = [
     inputs.nixpkgs-wayland.overlay
   ];
+  programs.zed-editor = {
+    enable = true;
+    extensions = [
+      "catppuccin"
+      "catppuccin-icons"
+    ];
+    userSettings = {
+      icon_theme = "Catppuccin Mocha";
+      session = {
+        trust_all_worktrees = true;
+      };
+      vim_mode = true;
+      base_keymap = "VSCode";
+      minimap = {
+        show = "always";
+      };
+      buffer_font_fallbacks = [
+        "Droid Sans Mono"
+        "monospace"
+        "monospace"
+      ];
+      buffer_font_family = "Maple Mono NF";
+      ui_font_family = "Maple Mono NF";
+      ui_font_features = {
+        cv01 = true;
+        cv03 = true;
+        cv05 = true;
+        cv07 = true;
+        cv09 = true;
+        cv10 = true;
+        cv61 = true;
+        cv65 = true;
+        cv66 = true;
+        ss03 = true;
+        zero = true;
+        ss11 = true;
+        ss10 = true;
+        ss09 = true;
+        ss08 = true;
+        ss07 = true;
+        ss06 = true;
+      };
+      buffer_font_features = {
+        cv01 = true;
+        cv03 = true;
+        cv05 = true;
+        cv07 = true;
+        cv09 = true;
+        cv10 = true;
+        cv61 = true;
+        cv65 = true;
+        cv66 = true;
+        ss03 = true;
+        zero = true;
+        ss11 = true;
+        ss10 = true;
+        ss09 = true;
+        ss08 = true;
+        ss07 = true;
+        ss06 = true;
+      };
+      ui_font_size = 16;
+      buffer_font_size = 15;
+      theme = {
+        mode = "system";
+        light = "One Light";
+        dark = "Catppuccin Mocha";
+      };
+    };
+  };
   nixpkgs.config.allowUnfree = true;
   dconf = {
     settings = {
@@ -101,6 +171,9 @@ in
       (neovim.override { withNodeJs = true; })
       tmux
       shfmt
+
+      spotify
+      ferdium
 
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
       inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.waybar
@@ -603,7 +676,8 @@ in
     windowManager = {
       hyprland = {
         enable = true;
-        extraConfig = (builtins.readFile hypr/hyprland.conf);
+        configType = "lua";
+        extraConfig = (builtins.readFile ./hypr/hyprland.lua);
         portalPackage =
           inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
         systemd.enable = true;
@@ -615,6 +689,7 @@ in
     };
   };
   services = {
+    kdeconnect.enable = true;
     udiskie = {
       enable = true;
       settings = {

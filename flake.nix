@@ -59,6 +59,12 @@
         home-manager.follows = "home-manager";
       };
     };
+    zed = {
+      url = "github:zed-industries/zed";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
     # helmwave = {
     #   url = "github:helmwave/nur";
     #   inputs.nixpkgs.follows = "nixpkgs";
