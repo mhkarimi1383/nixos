@@ -167,6 +167,8 @@ in
       polkit
       steam-run
 
+
+      stylua
       vim
       (neovim.override { withNodeJs = true; })
       tmux
