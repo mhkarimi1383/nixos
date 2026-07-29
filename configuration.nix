@@ -160,7 +160,7 @@
   };
   # Bootloader.
   boot = {
-    kernelPackages = pkgs.linuxPackages_testing;
+    kernelPackages = pkgs.linuxPackages;
     extraModulePackages = with config.boot.kernelPackages; [
       v4l2loopback
       xpadneo
@@ -475,6 +475,6 @@
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.vulkan_beta;
+    package = config.boot.kernelPackages.nvidiaPackages.bleeding_edge;
   };
 }

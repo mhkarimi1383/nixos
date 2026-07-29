@@ -9,11 +9,54 @@ let
   hyprPlugins = inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
+  imports = [
+    inputs.zen-browser.homeModules.twilight
+  ];
   nixpkgs.overlays = [
     inputs.nixpkgs-wayland.overlay
   ];
-  programs.zed-editor = {
+  programs.pay-respects = {
     enable = true;
+    enableZshIntegration = true;
+  };
+  programs.zen-browser = {
+    enable = true;
+    setAsDefaultBrowser = true;
+    profiles.default.mods = [
+        "f7c71d9a-bce2-420f-ae44-a64bd92975ab"
+    ];
+    policies = let
+      mkExtensionSettings = builtins.mapAttrs (_: pluginId: {
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/${pluginId}/latest.xpi";
+        installation_mode = "force_installed";
+      });
+      in {
+        ExtensionSettings = mkExtensionSettings {
+          "wappalyzer@crunchlabz.com" = "wappalyzer";
+          "adguardadblocker@adguard.com" = "adguard-adblocker";
+          "{446900e4-71c2-419f-a6a7-df9c091e268b}" = "bitwarden-password-manager";
+          "addon@darkreader.org" = "darkreader";
+          "jid1-ZAdIEUB7XOzOJw@jetpack" = "duckduckgo-for-firefox";
+          "enhancerforyoutube@maximerf.addons.mozilla.org" = "enhancer-for-youtube";
+          "foxyproxy@eric.h.jung" = "foxyproxy-standard";
+          "{00000f2a-7cde-4f20-83ed-434fcb420d71}" = "imagus";
+          "{e960c19a-b3ce-477c-8a0d-d82959225dee}" = "music-mode-for-youtube";
+          "{762f9885-5a13-4abd-9c77-433dcd38b8fd}" = "return-youtube-dislikes";
+          "{7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}" = "styl-us";
+          "{0d7cafdd-501c-49ca-8ebb-e3341caaa55e}" = "youtube-nonstop";
+        };
+    };
+
+    profiles.default.presets.catppuccin = {
+      enable = true;
+      flavor = "Mocha";
+      accent = "Mauve";
+    };
+    profiles.default.presets.betterfox.enable = true;
+    profiles.default.presets.arkenfox.enable = true;
+  };
+  programs.zed-editor = {
+    enable = false;
     extensions = [
       "catppuccin"
       "catppuccin-icons"
@@ -158,10 +201,6 @@ in
       kubecolor
       kubernetes-helm
       krew
-      (minikube.override {
-        withQemu = true;
-        libvirt = pkgs.libvirt;
-      })
       # inputs.helmwave.helmwave
 
       polkit
@@ -173,10 +212,10 @@ in
       (neovim.override { withNodeJs = true; })
       tmux
       shfmt
-
+      claude-code
       spotify
       ferdium
-
+      love
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
       inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.waybar
       inputs.nixpkgs-wayland.packages.${pkgs.stdenv.hostPlatform.system}.dunst
@@ -196,12 +235,13 @@ in
       clipse
       catppuccin-cursors.mochaLavender
       terraform-lsp
-      inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".twilight
 
       maple-mono.NF
-      vazir-fonts
+      vazirmatn
 
       cloud-utils
+
+      basedpyright
 
       bruno
       dbeaver-bin
@@ -341,7 +381,6 @@ in
       nvtopPackages.full
       smartmontools
       remmina
-      persepolis
       (qemu_full.override {
         cephSupport = false;
         glusterfsSupport = false;
@@ -359,7 +398,7 @@ in
       wget
 
       anydesk
-      rustdesk
+      # rustdesk
       openfortivpn
       winbox4
       fd
@@ -379,6 +418,7 @@ in
         wlrobs
         obs-backgroundremoval
         obs-pipewire-audio-capture
+        input-overlay
       ];
     };
     zoxide = {
