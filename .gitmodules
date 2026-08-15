@@ -13,18 +13,12 @@
 [submodule "fuzzel"]
 	path = fuzzel
 	url = ../fuzzel.git
-[submodule "typewritten"]
-	path = typewritten
-	url = https://github.com/reobin/typewritten.git
 [submodule "dunst"]
 	path = dunst
 	url = ../dunst.git
 [submodule "lsd"]
 	path = lsd
 	url = ../lsd.git
-[submodule "bat"]
-	path = bat
-	url = ../bat.git
 [submodule "tmux"]
 	path = tmux
 	url = ../tmux.git
@@ -37,3 +31,6 @@
 [submodule "wlogout"]
 	path = wlogout
 	url = ../wlogout.git
+[submodule "rose-pine-bat"]
+	path = rose-pine-bat
+	url = https://github.com/drluckyspin/rose-pine-bat

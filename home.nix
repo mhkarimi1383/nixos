@@ -7,6 +7,10 @@
 }:
 let
   hyprPlugins = inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system};
+  omzKeyBindings = pkgs.fetchurl {
+    url = "https://github.com/ohmyzsh/ohmyzsh/raw/refs/heads/master/lib/key-bindings.zsh";
+    sha256 = "0389w4q9dflp9r4qczm8dggmq788zkqf4bczbpwqb6q7r23fmc83";
+  };
 in
 {
   imports = [
@@ -137,31 +141,67 @@ in
       };
     };
   };
-  gtk.enable = true;
-  gtk.iconTheme.package = pkgs.papirus-icon-theme;
-  gtk.iconTheme.name = "Papirus-Dark";
-  gtk.gtk2.iconTheme.package = pkgs.papirus-icon-theme;
-  gtk.gtk2.iconTheme.name = "Papirus-Dark";
-  gtk.gtk2.extraConfig = ''
-    gtk-application-prefer-dark-theme=1
-  '';
-  gtk.gtk2.theme.name = "Catppuccin-GTK-Dark";
-  gtk.gtk2.theme.package = pkgs.magnetic-catppuccin-gtk;
-  gtk.gtk3.iconTheme.package = pkgs.papirus-icon-theme;
-  gtk.gtk3.iconTheme.name = "Papirus-Dark";
-  gtk.gtk3.extraConfig = {
-    gtk-application-prefer-dark-theme = 1;
+gtk = {
+  enable = true;
+  colorScheme = "dark";
+
+  # theme = {
+  #   name = "rose-pine-moon";
+  #   package = pkgs.rose-pine-gtk-theme;
+  # };
+
+  iconTheme = {
+    name = "rose-pine-moon";
+    package = pkgs.rose-pine-icon-theme;
   };
-  gtk.gtk3.theme.name = "Catppuccin-GTK-Dark";
-  gtk.gtk3.theme.package = pkgs.magnetic-catppuccin-gtk;
-  gtk.gtk4.enable = true;
-  gtk.gtk4.iconTheme.package = pkgs.papirus-icon-theme;
-  gtk.gtk4.iconTheme.name = "Papirus-Dark";
-  gtk.gtk4.theme.name = "Catppuccin-GTK-Dark";
-  gtk.gtk4.theme.package = pkgs.magnetic-catppuccin-gtk;
-  gtk.gtk4.extraConfig = {
-    gtk-application-prefer-dark-theme = 1;
+
+  gtk2 = {
+    enable = true;
+
+    # theme = {
+    #   name = "rose-pine-moon";
+    #   package = pkgs.rose-pine-gtk-theme;
+    # };
+
+    iconTheme = {
+      name = "rose-pine-moon";
+      package = pkgs.rose-pine-icon-theme;
+    };
   };
+
+  gtk3 = {
+
+    # theme = {
+    #   name = "rose-pine-moon";
+    #   package = pkgs.rose-pine-gtk-theme;
+    # };
+    iconTheme = {
+      name = "rose-pine-moon";
+      package = pkgs.rose-pine-icon-theme;
+    };
+
+    extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+  };
+
+  gtk4 = {
+
+    # theme = {
+    #   name = "rose-pine-moon";
+    #   package = pkgs.rose-pine-gtk-theme;
+    # };
+
+    iconTheme = {
+      name = "rose-pine-moon";
+      package = pkgs.rose-pine-icon-theme;
+    };
+
+    extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+  };
+};
   xdg = {
     portal = {
       enable = true;
@@ -194,6 +234,9 @@ in
     homeDirectory = "/home/karimi";
     stateVersion = "25.11";
     packages = with pkgs; [
+      rose-pine-icon-theme
+      # rose-pine-gtk-theme
+
       kind
       ansible
       ansible-lint
@@ -202,10 +245,10 @@ in
       kubernetes-helm
       krew
       # inputs.helmwave.helmwave
-
+      android-tools
       polkit
       steam-run
-
+      nix-search
 
       stylua
       vim
@@ -233,7 +276,6 @@ in
       brightnessctl
       playerctl
       clipse
-      catppuccin-cursors.mochaLavender
       terraform-lsp
 
       maple-mono.NF
@@ -246,7 +288,6 @@ in
       bruno
       dbeaver-bin
       sshuttle
-      magnetic-catppuccin-gtk
       vlc
       # (jetbrains.datagrip.override {
       #   vmopts = ''
@@ -368,7 +409,6 @@ in
       viddy
       nerdfetch
       fastfetch
-      fzf
       materialgram
       p7zip
       imagemagick
@@ -432,6 +472,16 @@ in
       enable = true;
       enableZshIntegration = true;
     };
+    oh-my-posh = {
+      enable = true;
+      enableZshIntegration = true;
+      settings = builtins.fromJSON (builtins.readFile ./ohmyposh.json);
+    };
+    fzf = {
+        enable = true;
+        enableZshIntegration = true;
+        tmux.enableShellIntegration = true;
+    };
     zsh = {
       enable = true;
       enableCompletion = true;
@@ -450,8 +500,6 @@ in
       autocd = true;
 
       initContent = lib.mkBefore ''
-        source "$HOME/.local/share/zsh/custom/themes/typewritten/typewritten.zsh-theme"
-        source "$HOME/.local/share/zsh/custom/catppuccin-zsh-syntax-highlighting/themes/catppuccin_mocha-zsh-syntax-highlighting.zsh"
         display_kube_context() {
           tw_kube_context="\u2388 | $(kubectl config view --minify --output json | jq -r '(."contexts"[0]."context"."user" + "@" + ."contexts"[0]."context"."cluster" + ":" + ."contexts"[0]."context"."namespace")' 2> /dev/null)"
           if [[ $tw_kube_context != "" ]]; then
@@ -461,6 +509,13 @@ in
         compdef kubecolor=kubectl
         compdef k=kubectl
         pfetch
+        source ${omzKeyBindings}
+        autoload -Uz select-word-style
+        select-word-style bash
+        zstyle ':completion:*' menu select
+        zstyle ':completion:*:default' list-colors \
+          "''${(s.:.)LS_COLORS}" \
+          "ma=38;2;17;17;27;48;2;203;166;247"
       '';
       shellAliases = {
         ll = "ls -l";
@@ -475,7 +530,7 @@ in
         tree = "lsd --tree";
         top = "btop";
         htop = "btop";
-        bat = "bat --theme='Catppuccin Mocha'";
+        bat = "bat --theme='Rose-Pine-Moon'";
         "-g -- --help" = "--help 2>&1 | bat --plain --language=help";
         cat = "bat --pager=never";
         less = "bat";
@@ -502,15 +557,18 @@ in
       sessionVariables = {
         MANPAGER = "bat -l man -p";
         EDITOR = "nvim";
-        TYPEWRITTEN_SYMBOL = "λ ";
-        TYPEWRITTEN_PROMPT_LAYOUT = "half_pure";
-        TYPEWRITTEN_RELATIVE_PATH = "adaptive";
-        TYPEWRITTEN_LEFT_PROMPT_PREFIX_FUNCTION = "display_kube_context";
         HISTCONTROL = "ignoreboth";
         KIND_EXPERIMENTAL_PROVIDER = "podman";
         NODE_PATH = "/home/karimi/.npm-packages/lib/node_modules";
         JDTLS_JVM_ARGS = "-javaagent:$HOME/.local/share/java/lombok.jar";
         REGISTRY_AUTH_FILE = "/home/karimi/.podman-auth.json";
+        ZLS_COLORS= "ma=38;2;17;17;27;48;2;203;166;247";
+        FZF_DEFAULT_OPTS=lib.strings.concatStringsSep " " [
+            "--color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC"
+            "--color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8"
+            "--color=selected-bg:#45475A"
+            "--color=border:#6C7086,label:#CDD6F4"
+        ];
         # HYPR_PLUGIN_DIR = pkgs.symlinkJoin {
         #   name = "hyprland-plugins";
         #   paths = [
@@ -521,19 +579,7 @@ in
         GTK_THEME = "Catppuccin-GTK-Dark";
         XDG_PICTURES_DIR = "/home/karimi/Pictures";
         HYPRSHOT_DIR = "/home/karimi/Pictures/Screenshots";
-      };
-      oh-my-zsh = {
-        enable = true;
-        plugins = [
-          "git"
-          "extract"
-          "timer"
-          "fzf"
-          "command-not-found"
-          "sudo"
-          "terraform"
-          "tldr"
-        ];
+        WORDCHARS = "";
       };
       history = {
         size = 10000;
@@ -597,16 +643,12 @@ in
       source = ./lsd;
       recursive = true;
     };
-    ".config/bat" = {
-      source = ./bat;
+    ".config/bat/themes" = {
+      source = ./rose-pine-bat/themes;
       recursive = true;
     };
     ".npmrc" = {
       source = ./npmrc;
-    };
-    ".local/share/zsh/custom/themes/typewritten" = {
-      source = ./typewritten;
-      recursive = true;
     };
     ".tmux.conf" = {
       source = ./tmux/tmux.conf;

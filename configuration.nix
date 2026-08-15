@@ -160,7 +160,7 @@
   };
   # Bootloader.
   boot = {
-    kernelPackages = pkgs.linuxPackages;
+    kernelPackages = pkgs.linuxPackages_testing;
     extraModulePackages = with config.boot.kernelPackages; [
       v4l2loopback
       xpadneo
