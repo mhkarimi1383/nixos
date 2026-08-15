@@ -59,76 +59,6 @@ in
     profiles.default.presets.betterfox.enable = true;
     profiles.default.presets.arkenfox.enable = true;
   };
-  programs.zed-editor = {
-    enable = false;
-    extensions = [
-      "catppuccin"
-      "catppuccin-icons"
-    ];
-    userSettings = {
-      icon_theme = "Catppuccin Mocha";
-      session = {
-        trust_all_worktrees = true;
-      };
-      vim_mode = true;
-      base_keymap = "VSCode";
-      minimap = {
-        show = "always";
-      };
-      buffer_font_fallbacks = [
-        "Droid Sans Mono"
-        "monospace"
-        "monospace"
-      ];
-      buffer_font_family = "Maple Mono NF";
-      ui_font_family = "Maple Mono NF";
-      ui_font_features = {
-        cv01 = true;
-        cv03 = true;
-        cv05 = true;
-        cv07 = true;
-        cv09 = true;
-        cv10 = true;
-        cv61 = true;
-        cv65 = true;
-        cv66 = true;
-        ss03 = true;
-        zero = true;
-        ss11 = true;
-        ss10 = true;
-        ss09 = true;
-        ss08 = true;
-        ss07 = true;
-        ss06 = true;
-      };
-      buffer_font_features = {
-        cv01 = true;
-        cv03 = true;
-        cv05 = true;
-        cv07 = true;
-        cv09 = true;
-        cv10 = true;
-        cv61 = true;
-        cv65 = true;
-        cv66 = true;
-        ss03 = true;
-        zero = true;
-        ss11 = true;
-        ss10 = true;
-        ss09 = true;
-        ss08 = true;
-        ss07 = true;
-        ss06 = true;
-      };
-      ui_font_size = 16;
-      buffer_font_size = 15;
-      theme = {
-        mode = "system";
-        light = "One Light";
-        dark = "Catppuccin Mocha";
-      };
-    };
-  };
   nixpkgs.config.allowUnfree = true;
   dconf = {
     settings = {
@@ -395,7 +325,6 @@ gtk = {
 
       cava
       pamixer
-      yazi
       gimp
       jq
       lsd
@@ -576,7 +505,7 @@ gtk = {
         #     hyprPlugins.hyprexpo
         #   ];
         # };
-        GTK_THEME = "Catppuccin-GTK-Dark";
+        # GTK_THEME = "Catppuccin-GTK-Dark";
         XDG_PICTURES_DIR = "/home/karimi/Pictures";
         HYPRSHOT_DIR = "/home/karimi/Pictures/Screenshots";
         WORDCHARS = "";
@@ -610,10 +539,6 @@ gtk = {
   home.file = {
     ".config/clipse/config.json" = {
       source = ./clipse.json;
-    };
-    ".local/share/zsh/custom/catppuccin-zsh-syntax-highlighting" = {
-      source = ./zsh-syntax-highlighting;
-      recursive = true;
     };
     ".config/hypr" = {
       source = ./hypr;
@@ -653,19 +578,12 @@ gtk = {
     ".tmux.conf" = {
       source = ./tmux/tmux.conf;
     };
-    ".config/tmux/plugins/catppuccin/tmux" = {
-      source = ./tmux/catppuccin;
-      recursive = true;
-    };
     ".tmux/plugins/tpm" = {
       source = ./tmux/tpm;
       recursive = true;
     };
     ".gitmux.conf" = {
       source = ./tmux/gitmux.conf;
-    };
-    ".config/yazi/theme.toml" = {
-      source = ./yazi/themes/mocha/catppuccin-mocha-lavender.toml;
     };
     ".config/cava/config" = {
       source = ./cava.ini;
@@ -777,12 +695,6 @@ gtk = {
     udiskie = {
       enable = true;
       settings = {
-        # workaround for
-        # https://github.com/nix-community/home-manager/issues/632
-        program_options = {
-          # replace with your favorite file manager
-          file_manager = "${pkgs.yazi}/bin/yazi";
-        };
       };
     };
     blueman-applet = {

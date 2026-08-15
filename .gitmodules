@@ -22,12 +22,6 @@
 [submodule "tmux"]
 	path = tmux
 	url = ../tmux.git
-[submodule "yazi"]
-	path = yazi
-	url = https://github.com/catppuccin/yazi.git
-[submodule "zsh-syntax-highlighting"]
-	path = zsh-syntax-highlighting
-	url = https://github.com/catppuccin/zsh-syntax-highlighting.git
 [submodule "wlogout"]
 	path = wlogout
 	url = ../wlogout.git
