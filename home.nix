@@ -51,11 +51,7 @@ in
         };
     };
 
-    profiles.default.presets.catppuccin = {
-      enable = true;
-      flavor = "Mocha";
-      accent = "Mauve";
-    };
+    profiles.default.userChrome =  builtins.readFile ./rose-pine-zen-browser/dist/userChrome.css;
     profiles.default.presets.betterfox.enable = true;
     profiles.default.presets.arkenfox.enable = true;
   };

@@ -28,3 +28,6 @@
 [submodule "rose-pine-bat"]
 	path = rose-pine-bat
 	url = https://github.com/drluckyspin/rose-pine-bat
+[submodule "rose-pine-zen-browser"]
+	path = rose-pine-zen-browser
+	url = https://github.com/rose-pine/zen-browser
