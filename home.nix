@@ -51,7 +51,10 @@ in
         };
     };
 
-    profiles.default.userChrome =  builtins.readFile ./rose-pine-zen-browser/dist/userChrome.css;
+    profiles.default.userChrome =  ''
+    ${builtins.readFile ./rose-pine-zen-browser/dist/rose-pine-moon.css}
+    ${builtins.readFile ./rose-pine-zen-browser/dist/userChrome.css}
+    '';
     profiles.default.presets.betterfox.enable = true;
     profiles.default.presets.arkenfox.enable = true;
   };
@@ -433,6 +436,7 @@ gtk = {
             echo -n "($tw_kube_context)"
           fi
         }
+        autoload -Uz compinit
         compdef kubecolor=kubectl
         compdef k=kubectl
         pfetch
