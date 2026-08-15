@@ -45,7 +45,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     waybar = {
-      url = "github:Alexays/Waybar/0.14.0";
+      url = "github:Alexays/Waybar/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
@@ -64,6 +64,11 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
       };
+    };
+    rose-pine-hyprcursor = {
+      url = "github:ndom91/rose-pine-hyprcursor";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.hyprlang.follows = "hyprland/hyprlang";
     };
     # helmwave = {
     #   url = "github:helmwave/nur";

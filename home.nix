@@ -165,6 +165,8 @@ gtk = {
     stateVersion = "25.11";
     packages = with pkgs; [
       rose-pine-icon-theme
+      rose-pine-cursor
+      inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
       # rose-pine-gtk-theme
 
       kind
