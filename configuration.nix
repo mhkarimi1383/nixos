@@ -189,13 +189,7 @@
       options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
     '';
     plymouth = {
-      enable = true;
-      theme = "catppuccin-mocha";
-      themePackages = with pkgs; [
-        (catppuccin-plymouth.override {
-          variant = "mocha";
-        })
-      ];
+      enable = false;
     };
     consoleLogLevel = 0;
     initrd.verbose = false;
