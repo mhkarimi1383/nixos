@@ -548,6 +548,9 @@ gtk = {
       source = ./kitty;
       recursive = true;
     };
+    ".config/kitty/kitty.app.png" = {
+      source = ./kitty + builtins.toPath "/rose-pine-kitty/icons/kitty.app@2x.png";
+    };
     ".config/nvim" = {
       source = ./nvim;
       recursive = true;
