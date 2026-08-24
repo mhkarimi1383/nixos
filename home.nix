@@ -138,18 +138,15 @@ gtk = {
       config = {
         common.default = [
           "hyprland"
-          "wlr"
           "gtk"
         ];
         hyprland.default = [
           "hyprland"
-          "wlr"
           "gtk"
         ];
       };
       extraPortals = [
         inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
-        inputs.nixpkgs-wayland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-wlr
         pkgs.xdg-desktop-portal-gtk
       ];
     };

@@ -59,7 +59,7 @@
                         "{{ if .Root }}p:root-bg{{ end }}"
                     ],
                     "template": " {{ .Icon }} ",
-                    "properties": {
+                    "options": {
                         "windows": "\ue70f"
                     }
                 },
@@ -68,7 +68,7 @@
                     "style": "plain",
                     "foreground": "p:path",
                     "template": " {{ .Path }} ",
-                    "properties": {
+                    "options": {
                         "home_icon": "~",
                         "folder_icon": "..",
                         "style": "agnoster_short"
@@ -79,12 +79,11 @@
                     "style": "plain",
                     "foreground": "p:git",
                     "template": "{{ .HEAD }} ",
-                    "properties": {
+                    "options": {
                         "branch_icon": "\ue725 ",
                         "cherry_pick_icon": "\ue29b ",
                         "commit_icon": "\uf417 ",
                         "fetch_status": false,
-                        "fetch_stash_count": false,
                         "fetch_upstream_icon": false,
                         "merge_icon": "\ue727 ",
                         "no_commits_icon": "\uf0c3 ",
@@ -128,7 +127,7 @@
                     "style": "plain",
                     "foreground": "p:python",
                     "template": "\ue73c {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
-                    "properties": {
+                    "options": {
                         "display_default": false,
                         "display_mode": "context"
                     }
@@ -147,7 +146,7 @@
                         "{{ if .Code }}p:false{{ end }}"
                     ],
                     "template": "\udb81\udd1f {{ .FormattedMs }} ",
-                    "properties": {
+                    "options": {
                         "threshold": 500,
                         "style": "austin"
                     }
@@ -167,7 +166,7 @@
                         "{{ if gt .Code 0 }}p:false{{ end }}"
                     ],
                     "template": "λ ",
-                    "properties": {
+                    "options": {
                         "always_enabled": true
                     }
                 }
