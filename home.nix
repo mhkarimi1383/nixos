@@ -6,7 +6,6 @@
   ...
 }:
 let
-  hyprPlugins = inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system};
   omzKeyBindings = pkgs.fetchurl {
     url = "https://github.com/ohmyzsh/ohmyzsh/raw/refs/heads/master/lib/key-bindings.zsh";
     sha256 = "0389w4q9dflp9r4qczm8dggmq788zkqf4bczbpwqb6q7r23fmc83";
@@ -164,7 +163,7 @@ gtk = {
       rose-pine-cursor
       inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
       # rose-pine-gtk-theme
-
+      jcal
       kind
       ansible
       ansible-lint
@@ -350,7 +349,6 @@ gtk = {
       remmina
       (qemu_full.override {
         cephSupport = false;
-        glusterfsSupport = false;
         xenSupport = false;
       })
       gradle
@@ -497,13 +495,6 @@ gtk = {
             "--color=selected-bg:#45475A"
             "--color=border:#6C7086,label:#CDD6F4"
         ];
-        # HYPR_PLUGIN_DIR = pkgs.symlinkJoin {
-        #   name = "hyprland-plugins";
-        #   paths = [
-        #     # hyprPlugins.hyprtrails
-        #     hyprPlugins.hyprexpo
-        #   ];
-        # };
         # GTK_THEME = "Catppuccin-GTK-Dark";
         XDG_PICTURES_DIR = "/home/karimi/Pictures";
         HYPRSHOT_DIR = "/home/karimi/Pictures/Screenshots";
@@ -688,6 +679,9 @@ gtk = {
         xwayland = {
           enable = true;
         };
+        # plugins = [
+        #     inputs.hyprcapture.packages.${pkgs.stdenv.hostPlatform.system}.hyprcapture
+        # ];
         package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       };
     };

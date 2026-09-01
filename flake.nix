@@ -32,6 +32,10 @@
       url = "github:hyprwm/hyprlauncher?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprcapture = {
+      url = "github:gfhdhytghd/HyprCapture";
+      inputs.hyprland.follows = "hyprland";
+    };
     hyprlock = {
       url = "github:hyprwm/hyprlock?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
