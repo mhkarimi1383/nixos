@@ -16,6 +16,12 @@
     inputs.home-manager.nixosModules.default
     inputs.nix-gaming.nixosModules.pipewireLowLatency
   ];
+  users.groups.rog-mouse = {};
+  services.udev.extraRules = ''
+  SUBSYSTEM=="hidraw", ATTRS{idVendor}=="0b05", ATTRS{idProduct}=="18dd", TAG+="uaccess"
+  SUBSYSTEM=="hidraw", ATTRS{idVendor}=="0b05", ATTRS{idProduct}=="18dd", MODE="0660", GROUP="rog-mouse"
+  '';
+  services.ratbagd.enable = true;
   programs.throne.enable = true;
   programs.throne.tunMode.enable = true;
   services = {
@@ -194,22 +200,16 @@
     consoleLogLevel = 0;
     initrd.verbose = false;
     kernelParams = [
-      "quiet"
       "elevator=bfq"
       "preempt=full"
       "mitigations=off"
       "nowatchdog"
       "threadirqs"
-      "splash"
       "boot.shell_on_fail"
       "loglevel=3"
       "rd.systemd.show_status=false"
       "rd.udev.log_level=3"
       "udev.log_priority=3"
-      "vt.default_red=30,243,166,249,137,245,148,186,88,243,166,249,137,245,148,166"
-      "vt.default_grn=30,139,227,226,180,194,226,194,91,139,227,226,180,194,226,173"
-      "vt.default_blu=46,168,161,175,250,231,213,222,112,168,161,175,250,231,213,200"
-      "usbcore.autosuspend=-1" # Chinese Bluetooth HID Devices problem
     ];
     loader.timeout = 10;
     loader = {
@@ -282,6 +282,7 @@
           "libvirtd"
           "disk"
           "audio"
+          "rog-mouse"
         ];
         useDefaultShell = true;
         # packages = with pkgs; [];

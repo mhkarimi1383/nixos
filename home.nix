@@ -159,6 +159,9 @@ gtk = {
     homeDirectory = "/home/karimi";
     stateVersion = "25.11";
     packages = with pkgs; [
+      grim
+      ncdu
+      satty
       rose-pine-icon-theme
       rose-pine-cursor
       inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -184,8 +187,6 @@ gtk = {
       shfmt
       claude-code
       spotify
-      ferdium
-      love
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
       inputs.waybar.packages.${pkgs.stdenv.hostPlatform.system}.waybar
       inputs.nixpkgs-wayland.packages.${pkgs.stdenv.hostPlatform.system}.dunst
@@ -202,7 +203,6 @@ gtk = {
       networkmanagerapplet
       brightnessctl
       playerctl
-      clipse
       terraform-lsp
 
       maple-mono.NF
@@ -216,32 +216,32 @@ gtk = {
       dbeaver-bin
       sshuttle
       vlc
-      # (jetbrains.datagrip.override {
-      #   vmopts = ''
-      #     -Xms512m
-      #     -Xmx8192m
-      #     -XX:ReservedCodeCacheSize=512m
-      #     -XX:+IgnoreUnrecognizedVMOptions
-      #     -XX:+UseG1GC
-      #     -XX:SoftRefLRUPolicyMSPerMB=50
-      #     -XX:CICompilerCount=2
-      #     -XX:+HeapDumpOnOutOfMemoryError
-      #     -XX:-OmitStackTraceInFastThrow
-      #     -ea
-      #     -Dsun.io.useCanonCaches=false
-      #     -Djdk.http.auth.tunneling.disabledSchemes=""
-      #     -Djdk.attach.allowAttachSelf=true
-      #     -Djdk.module.illegalAccess.silent=true
-      #     -Dkotlinx.coroutines.debug=off
-      #     -XX:ErrorFile=$USER_HOME/java_error_in_idea_%p.log
-      #     -XX:HeapDumpPath=$USER_HOME/java_error_in_idea.hprof
+      (jetbrains.datagrip.override {
+        vmopts = ''
+          -Xms512m
+          -Xmx8192m
+          -XX:ReservedCodeCacheSize=512m
+          -XX:+IgnoreUnrecognizedVMOptions
+          -XX:+UseG1GC
+          -XX:SoftRefLRUPolicyMSPerMB=50
+          -XX:CICompilerCount=2
+          -XX:+HeapDumpOnOutOfMemoryError
+          -XX:-OmitStackTraceInFastThrow
+          -ea
+          -Dsun.io.useCanonCaches=false
+          -Djdk.http.auth.tunneling.disabledSchemes=""
+          -Djdk.attach.allowAttachSelf=true
+          -Djdk.module.illegalAccess.silent=true
+          -Dkotlinx.coroutines.debug=off
+          -XX:ErrorFile=$USER_HOME/java_error_in_idea_%p.log
+          -XX:HeapDumpPath=$USER_HOME/java_error_in_idea.hprof
 
-      #     --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
-      #     --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
+          --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
+          --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
 
-      #     -javaagent:/home/karimi/ja-netfilter/ja-netfilter.jar=jetbrains
-      #   '';
-      # })
+          -javaagent:/home/karimi/ja-netfilter/ja-netfilter.jar=jetbrains
+        '';
+      })
       (jetbrains.idea.override {
         vmopts = ''
           -Xms512m
@@ -317,7 +317,6 @@ gtk = {
       podman-compose
       dive
 
-      cloudflare-warp
       throne
 
       cava
@@ -374,6 +373,10 @@ gtk = {
       wineWow64Packages.waylandFull
       samba
       vscode
+
+      file
+      cliphist
+      inputs.cliphist-picker.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
   };
   programs = {

@@ -74,6 +74,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.hyprlang.follows = "hyprland/hyprlang";
     };
+    cliphist-picker = {
+      url = "github:mhkarimi1383/cliphist-picker";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # helmwave = {
     #   url = "github:helmwave/nur";
     #   inputs.nixpkgs.follows = "nixpkgs";
