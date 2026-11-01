@@ -159,6 +159,7 @@ gtk = {
     homeDirectory = "/home/karimi";
     stateVersion = "25.11";
     packages = with pkgs; [
+      steamcmd
       grim
       ncdu
       satty
@@ -196,7 +197,9 @@ gtk = {
       (hyprshot.override {
         hyprland = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       })
-      inputs.hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper
+      (inputs.hyprpaper.packages.${pkgs.stdenv.hostPlatform.system}.hyprpaper.override {
+        pcre = pkgs.pcre2;
+      })
       inputs.hypridle.packages.${pkgs.stdenv.hostPlatform.system}.hypridle
       inputs.hyprpolkitagent.packages.${pkgs.stdenv.hostPlatform.system}.hyprpolkitagent
       fuzzel

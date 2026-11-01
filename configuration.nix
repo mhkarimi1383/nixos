@@ -198,7 +198,6 @@
       enable = false;
     };
     consoleLogLevel = 0;
-    initrd.verbose = false;
     kernelParams = [
       "elevator=bfq"
       "preempt=full"
@@ -223,6 +222,7 @@
         enable = true;
         efiSupport = true;
         device = "nodev";
+        efiInstallAsRemovable = false;
       };
       refind = {
         enable = false;
@@ -295,6 +295,24 @@
     };
     nix-ld = {
       enable = true;
+      libraries = with pkgs; [
+        zlib
+        zstd
+        stdenv.cc.cc
+        curl
+        openssl
+        attr
+        libssh
+        bzip2
+        libxml2
+        acl
+        libsodium
+        util-linux
+        xz
+        systemd
+        glib
+        glibc_multi.bin
+      ];
     };
     winbox = {
       enable = true;
@@ -402,6 +420,7 @@
   system.stateVersion = "26.11";
   hardware.graphics = {
     enable = true;
+    enable32Bit = true;
   };
   hardware.enableAllFirmware = true;
   hardware.bluetooth = {
